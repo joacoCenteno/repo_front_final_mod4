@@ -1,0 +1,7 @@
+@import url('https://fonts.googleapis.com/css2?family=Alan+Sans:wght@300..900&family=Work+Sans:ital,wght@0,100..900;1,100..900&display=swap');
+@import "tailwindcss";
+@import 'bootstrap-icons/font/bootstrap-icons.css';
+
+@theme{
+    --font-display: "Alan Sans", sans-serif;
+}
