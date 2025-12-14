@@ -16,6 +16,21 @@ const CreateSong = () => {
 
     const {crearCancion} = useMusic()
 
+    const validarLink = (value) =>{
+      try {
+        const url = new URL(value);
+
+        if(url.protocol !== "http:" && url.protocol !== "https:"){
+          return "El link debe empezar con http:// o https://";
+        }
+
+        return ""
+      // eslint-disable-next-line no-unused-vars
+      } catch (error) {
+        return "El link ingresado no es válido";
+      }
+    }
+
   const handleSubmit = async (e) => {
     e.preventDefault();
      if (titulo.trim() === "" || artista.trim() === "" || album.trim() === "" || generos.trim() === "" || imagen.trim() === "" || url.trim() === "" || duracion <= 0) {
@@ -29,6 +44,11 @@ const CreateSong = () => {
         .filter(genero => genero.length > 0);
     
     try {
+      const validar_link = validarLink(imagen)
+        if(validar_link){
+            setError(validar_link);
+           return
+        }
       await crearCancion({titulo, artista, album, duracion, generos:generosArray, imagen, url})
       navigate('/canciones');
     } catch (error) {
@@ -40,7 +60,7 @@ const CreateSong = () => {
   return (
 
     <>
-    <div className='bg-[#121825] text-[#EEEEEE] h-screen flex flex-col justify-center items-center font-display'>
+    <div className='bg-[#121825] px-2 sm:px-0 text-[#EEEEEE] h-screen flex flex-col justify-center items-center font-display'>
             <div className='h-10 flex justify-between gap-2 items-center pt-3 mb-7 transition ease-in cursor-pointer text-[#5c6b8a] hover:text-white' onClick={()=>{navigate(-1)}}>
         <i className="bi bi-arrow-left text-3xl " ></i>
         <p >

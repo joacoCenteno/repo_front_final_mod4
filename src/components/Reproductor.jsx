@@ -1,8 +1,10 @@
 import React from 'react'
 import { useMusic } from '../contexts/MusicContext'
+import { useThemeContext } from '../contexts/ThemeContext';
 
 const Reproductor = () => {
     const  {canciones} = useMusic();
+    const {isDark} = useThemeContext()
 
         const formatTime = (totalSeconds) => {
     const minutes = Math.floor(totalSeconds / 60); 
@@ -16,7 +18,7 @@ const Reproductor = () => {
 
   return (
     <>
-        <div className=' fixed bottom-0 bg-gradient-to-r text-white pb-4 from-[#91dbfd] to-[#42c1fc] rounded-sm h-13 w-full '>
+        <div className={`fixed bottom-0 bg-gradient-to-r text-white pb-4 from-[#91dbfd] to-[#42c1fc] rounded-sm h-13 w-full ${!isDark&&"hover:bg-gradient-to-r from-[#e3e6ff] to-[#a2acff] hover:ring-transparent"}`}>
             {canciones && canciones.slice(0, 1).map((cancion) =>{
                 return(
                     <>
@@ -37,7 +39,7 @@ const Reproductor = () => {
                             </div>
                         </div>
 
-                        <div className='w-2/4 rounded h-2 bg-white'></div>
+                        <div className='w-2/4 rounded h-2 bg-white hidden md:block'></div>
 
 
                         <div className='flex gap-9 mr-5 items-center'>

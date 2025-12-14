@@ -1,6 +1,8 @@
 import React from 'react'
+import { useThemeContext } from '../contexts/ThemeContext'
 
 const PlaylistView = () => {
+    const {isDark} = useThemeContext()
  const playlist = [{
     id: 1,
     nombre: "Chill Songs",
@@ -24,14 +26,14 @@ const PlaylistView = () => {
 
   return (
     <>
-            <div className='flex flex-col w-1/2 pt-6 pl-5'>
-            <h1 className='mb-5 text-2xl font-bold'>Playlists</h1>
+            <div className=' flex flex-col justify-center w-full md:w-1/2 pt-6 pb-15 md:pl-5 md:justify-normal'>
+            <h1 className={`mb-5 text-2xl font-bold ${!isDark&&"text-[#4e5c77]"}`}>Playlists</h1>
 
-            <div className='flex flex-wrap gap-4 '>
+            <div className='flex flex-wrap gap-2 md:gap-1 lg:gap-4 justify-center md:justify-around xl:justify-center'>
             {playlist && playlist.slice(0, 4).map((playlist) =>{
                 return(
                     <>
-                    <div key={playlist.id } className='w-70 h-28 p-3  pb-4 rounded-2xl bg-cover
+                    <div key={playlist.id } className=' w-43 sm:w-45 md:w-35 xl:w-70 h-28 :h-25 lg:h-28  pb-4 rounded-2xl bg-cover
                          cursor-pointer overflow-hidden group relative ' style={{ 
                         backgroundImage: `url(${playlist.imagen})` 
                     }}

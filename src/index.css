@@ -5,3 +5,13 @@
 @theme{
     --font-display: "Alan Sans", sans-serif;
 }
+
+
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+
+.no-scrollbar {
+  scrollbar-width: none;
+}

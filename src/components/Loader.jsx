@@ -1,13 +1,17 @@
 import React from 'react'
 import { MutatingDots } from 'react-loader-spinner'
-import { useMusic } from '../contexts/MusicContext'
+import { useThemeContext } from '../contexts/ThemeContext'
+
 
 const Loader = () => {
-    const {loading} = useMusic();
+  const {isDark} = useThemeContext()
+
   return (
     <>
-        <div className='bg-[#121825] w-full h-screen fixed flex justify-center items-center'>
-                  {loading && <><MutatingDots
+        <div className={`w-full h-screen z-50 fixed top-0 left-0 flex justify-center items-center transition-colors duration-300 ${
+        isDark ? "bg-[#121825]" : "bg-white"
+      }`}>
+          <MutatingDots
         visible={true}
         height="100"
         width="100"
@@ -17,7 +21,7 @@ const Loader = () => {
         ariaLabel="mutating-dots-loading"
         wrapperStyle={{}}
         wrapperClass=""
-        /></>}
+        />
         </div>
     </>
 )
