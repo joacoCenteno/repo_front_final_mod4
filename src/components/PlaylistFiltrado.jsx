@@ -80,7 +80,7 @@ export const PlaylistFiltrado = () => {
           ))}        
         </div>
 
-        <div className='mb-20  lg:translate-y-20'>
+        <div className='mb-20  lg:translate-y-17'>
           {paginacion && (
               <Paginador
                 pagina={pagina}

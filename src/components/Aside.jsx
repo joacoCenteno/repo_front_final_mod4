@@ -30,7 +30,7 @@ const Aside = () => {
 
   return (
     <>
-    <div className={`w-1/6 relative bg-[#171e2d] md:relative md:flex ${!isDark&&"bg-[#e3e6ff]"}`}>
+    <div className={`w-fit relative bg-[#171e2d] md:relative md:flex ${!isDark&&"bg-[#e3e6ff]"}`}>
             <button 
                 className="md:hidden top-4 left-4 z-50 text-white p-2"
                 onClick={toggleMenu}
@@ -40,7 +40,7 @@ const Aside = () => {
 
         <div
       className={`
-        bg-[#171e2d] fixed top-0 left-0 h-full w-3/4 z-50 p-6 
+        bg-[#171e2d] fixed top-0 left-0 h-full w-3/4 z-100 p-6 
         transform transition-transform duration-300
         md:hidden ${!isDark&&"bg-[#e3e6ff]"}
         ${isOpen ? "translate-x-0" : "-translate-x-full"}

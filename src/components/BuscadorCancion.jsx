@@ -3,36 +3,62 @@ import { usePlaylist } from '../contexts/PlaylistContext'
 import { useMusic } from '../contexts/MusicContext'
 import Paginador from './Paginador'
 import { useThemeContext } from '../contexts/ThemeContext'
+import Loader from './Loader'
 
 
 const BuscadorCancion = () => {
     const [query, setQuery] = useState("")
+    const [lastQuery, setLastQuery] = useState("");
     const [pagina, setPagina] = useState(1)
     const [resultados, setResultados] = useState([])
     const [paginacion, setPaginacion] = useState(null)
     const {isDark} = useThemeContext()
+    const [cargandoLocal, setCargandoLocal] = useState(false)
 
     const {agregarCancion} = usePlaylist()
     const {filtradoCancion} = useMusic()
 
 
-    const filtrado = async (pagina_buscar=1) => {
-        if (!query.trim()) {
+    const filtrado = async (pagina_buscar=1, terminoABuscar = lastQuery) => {
+        if (!terminoABuscar.trim()) {
                 setResultados([])        
-                setPaginacion(null)      
+                setPaginacion(null) 
+                setCargandoLocal(false)     
                 return                   
             }
 
             try {
-                let results = await filtradoCancion(query,pagina_buscar)
+                let results = await filtradoCancion(terminoABuscar,pagina_buscar)
                 setResultados(results.canciones || [])
                 setPaginacion(results.paginacion || null)
                 setPagina(results.paginacion?.page || pagina_buscar)
 
+                setLastQuery(terminoABuscar)
+                
+
             } catch (error) {
                 console.log("Error trayendo playlist:", error)
+            }finally{
+              setCargandoLocal(false)
             }
         }
+
+      const manejarNuevaBusqueda = () => {
+        setCargandoLocal(true)
+        setPagina(1);
+        filtrado(1, query); 
+    }
+
+    const agregadoCancion =async (id) =>{
+      setCargandoLocal(true)
+      try {
+        await agregarCancion(id)
+      } catch (error) {
+        console.log(error)
+      }finally{
+        setCargandoLocal(false)
+      }
+    }
     
   return (
     <>
@@ -45,9 +71,10 @@ const BuscadorCancion = () => {
             placeholder="Buscar canciones"
             className={` w-2/4 border border-gray-600 rounded-lg px-3 py-2 focus:ring-2 focus:ring-[#42c1fc] focus:outline-none  ${!isDark&&"focus:ring-[#a2acff]  focus:border-none  text-[#5d6f95]"}`}
           />
-          <button onClick={()=>{setPagina(1); filtrado()}} className={`text-[#5c6b8a] hover:text-[#91dbfd] cursor-pointer ml-3 hover:[text-shadow:0_0_5px_#81D4FA,0_0_15px_#81D4FA,0_0_10px_#81D4FA] ${!isDark&&"hover:text-[#a2acff] hover:[text-shadow:0_0_5px_#A2ACFF,0_0_15px_#E3E6FF,0_0_10px_#A2ACFF]"}`}><i className="bi bi-search"></i> Buscar</button>
+          <button onClick={manejarNuevaBusqueda} className={`text-[#5c6b8a] hover:text-[#91dbfd] cursor-pointer ml-3 hover:[text-shadow:0_0_5px_#81D4FA,0_0_15px_#81D4FA,0_0_10px_#81D4FA] ${!isDark&&"hover:text-[#a2acff] hover:[text-shadow:0_0_5px_#A2ACFF,0_0_15px_#E3E6FF,0_0_10px_#A2ACFF]"}`}><i className="bi bi-search"></i> Buscar</button>
         </div>
 
+          {cargandoLocal ? (<Loader/>) : (
       <div className='flex flex-col'>
 
         <div className='h-fit'>
@@ -70,7 +97,7 @@ const BuscadorCancion = () => {
                         </div>
                         
                         <div>
-                            <i className="bi bi-plus-circle text-lg text-[#5c6b8a] hover:text-white" onClick={()=>{agregarCancion(cancion._id)}}></i>
+                            <i className="bi bi-plus-circle text-lg text-[#5c6b8a] hover:text-white" onClick={()=>{agregadoCancion(cancion._id)}}></i>
                         </div> 
                        
 
@@ -86,11 +113,12 @@ const BuscadorCancion = () => {
         <Paginador
           pagina={pagina}
           paginacion={paginacion}
-          filtradoo={filtrado}
+          filtradoo={(p)=> filtrado(p,lastQuery)}
         />
         </div>
 
       </div>
+    )}
     </div>
     </>
   )

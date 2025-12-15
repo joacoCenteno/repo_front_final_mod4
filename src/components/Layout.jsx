@@ -21,7 +21,7 @@ const Layout = () => {
     
 
       <Aside/>
-        <div className='min-h-screen flex-col pl-5 w-full  text-[#EEEEEE] md:w-5/6'>
+        <div className='min-h-screen flex-col px-3 md:pl-5 w-full  text-[#EEEEEE] md:w-5/6'>
           <Search/>
 
           <Outlet/>
