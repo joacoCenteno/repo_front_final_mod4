@@ -1,2 +1,2 @@
 ## 🚀 Deploy
-- [DalePlay]([https://nodejs.org/](https://daleplaymusic.netlify.app/)) 
+- [DalePlay](https://nodejs.org/](https://daleplaymusic.netlify.app/) 
