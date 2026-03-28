@@ -9,12 +9,14 @@ import Loader from './Loader';
 import { useNavigate } from 'react-router-dom';
 import { useThemeContext } from '../contexts/ThemeContext';
 import { useAuth } from '../contexts/AuthContext';
+import { useAudio } from '../contexts/AudioContext';
 
 const Home = () => {
   const {canciones} = useMusic();
   const navigate = useNavigate()
   const {isDark} = useThemeContext()
   const {autenticado} = useAuth()
+  const {playTrack} = useAudio();
 
   return (
     <>
@@ -47,7 +49,7 @@ const Home = () => {
                                 navigate('/autenticacion');
                                 return
                               } 
-                              window.open(cancion.url, "_blank");
+                              playTrack(cancion)
                             }}>
                     </i>
         </div>

@@ -2,12 +2,14 @@ import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useAuth } from '../contexts/AuthContext';
 import { useThemeContext } from '../contexts/ThemeContext';
+import { useAudio } from '../contexts/AudioContext';
 
 const Search = () => {
     const [query, setQuery] = useState("")
     const navigate = useNavigate();
     const {usuario, logout} = useAuth()
     const {isDark} = useThemeContext()
+    const {pause} = useAudio();
 
       const handleSearch = () => {
     if (!query.trim()) return
@@ -39,6 +41,7 @@ const Search = () => {
         <i
           className={`bi bi-box-arrow-left text-xl cursor-pointer ${!isDark&&"text-[#5c6b8a]"}`}
           onClick={() => {
+            pause();
             logout();
             navigate('/');
           }}
