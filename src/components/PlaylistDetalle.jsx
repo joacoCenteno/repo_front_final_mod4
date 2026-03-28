@@ -8,6 +8,7 @@ import PlaylistAcciones from './PlaylistAcciones'
 import CancionPlaylistAccion from './CancionPlaylistAccion'
 import UserInfo from './UserInfo'
 import { useThemeContext } from '../contexts/ThemeContext'
+import { useAudio } from '../contexts/AudioContext'
 
 const PlaylistDetalle = () => {
     const {id} = useParams()
@@ -15,6 +16,7 @@ const PlaylistDetalle = () => {
     const { fetchPlaylistById, playlist} = usePlaylist()
     const {isDark} = useThemeContext()
     const [cargandoLocal, setCargandoLocal] = useState(true);
+    const {playPlaylist} = useAudio();
 
 useEffect(() => {
   const traerPlaylist = async () => {
@@ -53,9 +55,7 @@ useEffect(() => {
                         
                       </div>
                       
-                      {playlist.canciones[0]?(
-                         <a href={playlist.canciones[0].url} target="_blank" className={`text-[#5c6b8a] hover:text-[#91dbfd] cursor-pointer hover:[text-shadow:0_0_5px_#81D4FA,0_0_15px_#81D4FA,0_0_10px_#81D4FA] ${!isDark&&"hover:text-[#a2acff] hover:[text-shadow:0_0_5px_#A2ACFF,0_0_15px_#E3E6FF,0_0_10px_#A2ACFF]"}`}><i className="bi bi-play-fill"></i> REPRODUCIR</a>
-                      ):(<button className={`text-[#5c6b8a] hover:text-[#91dbfd] cursor-pointer hover:[text-shadow:0_0_5px_#81D4FA,0_0_15px_#81D4FA,0_0_10px_#81D4FA] ${!isDark&&"hover:text-[#a2acff] hover:[text-shadow:0_0_5px_#A2ACFF,0_0_15px_#E3E6FF,0_0_10px_#A2ACFF]"}`}><i className="bi bi-play-fill"></i> REPRODUCIR</button>)}
+                      <button className={`text-[#5c6b8a] hover:text-[#91dbfd] cursor-pointer hover:[text-shadow:0_0_5px_#81D4FA,0_0_15px_#81D4FA,0_0_10px_#81D4FA] ${!isDark&&"hover:text-[#a2acff] hover:[text-shadow:0_0_5px_#A2ACFF,0_0_15px_#E3E6FF,0_0_10px_#A2ACFF]"}`} onClick={()=> playPlaylist(playlist.canciones)}><i className="bi bi-play-fill"></i> REPRODUCIR</button>
                      
                   </div>
                   

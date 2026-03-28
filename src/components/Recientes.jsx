@@ -7,6 +7,7 @@ import Search from './Search';
 import { useThemeContext } from '../contexts/ThemeContext';
 import Paginador from './Paginador';
 import { useAuth } from '../contexts/AuthContext';
+import { useAudio } from '../contexts/AudioContext';
 
 const Recientes = () => {
   const {cancionesRecientes, paginacion, obtenerRecientes} = useMusic();
@@ -14,6 +15,7 @@ const Recientes = () => {
   const {isDark} = useThemeContext()
   const {autenticado} = useAuth()
   const [cargandoLocal, setCargandoLocal] = useState(false)
+  const {playTrack} = useAudio();
 
   useEffect(()=>{
     const cargaData = (pagina) =>{
@@ -56,7 +58,7 @@ const Recientes = () => {
                               `}
                               onClick={() => {
                                 if (!autenticado) return;
-                                window.open(cancion.url, "_blank");
+                                playTrack(cancion)
                               }}>
                               </i>
                         </div>
