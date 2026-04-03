@@ -1,11 +1,14 @@
 import React from 'react'
 import { useMusic } from '../contexts/MusicContext'
 import { useThemeContext } from '../contexts/ThemeContext';
+import { useAuth } from '../contexts/AuthContext';
+import { useAudio } from '../contexts/AudioContext';
 
 const CancionesTop = () => {
     const {canciones} = useMusic();
-    const {isDark} = useThemeContext()
-
+    const {isDark} = useThemeContext();
+    const {playTrack, setQueue} = useAudio();
+    const {autenticado} = useAuth();
     const formatTime = (totalSeconds) => {
     const minutes = Math.floor(totalSeconds / 60); 
 
@@ -26,6 +29,13 @@ const CancionesTop = () => {
                     <>
                     <div key={cancion._id || cancion.IdCancion  } className={` flex justify-between items-center w-full h-15 p-3  pb-4 rounded-2xl hover:bg-gradient-to-r from-[#89d6f9] to-[#42c1fc] 
                         hover:shadow-lg hover:shadow-[#81D4FA]/50 hover:[box-shadow:0_0_20px_#81D4FA,0_0_40px_#81D4FA/60] hover:ring-1 hover:ring-[#81D4FA] group cursor-pointer ${!isDark&&"hover:bg-gradient-to-r from-[#e3e6ff] to-[#a2acff] hover:ring-0 hover:ring-transparent hover:shadow-[#a2acff]/50"}`}
+                        
+                         onClick={()=>{
+                            if(autenticado){
+                                playTrack(cancion)
+                                setQueue(null)
+                          }
+                         }}
                     >
                         <div className='flex'>
                             <div className={`relative  w-10 h-10 rounded-sm bg-cover bg-center bg-no-repeat overflow-hidden `} style={{ 

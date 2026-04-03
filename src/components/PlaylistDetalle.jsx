@@ -16,7 +16,7 @@ const PlaylistDetalle = () => {
     const { fetchPlaylistById, playlist} = usePlaylist()
     const {isDark} = useThemeContext()
     const [cargandoLocal, setCargandoLocal] = useState(true);
-    const {playPlaylist} = useAudio();
+    const {playPlaylist, setRandomQueue} = useAudio();
 
 useEffect(() => {
   const traerPlaylist = async () => {
@@ -65,6 +65,7 @@ useEffect(() => {
                     {!playlist.canciones ? <p>No posee canciones</p> : playlist.canciones.map((cancion) =>{
                         return(
                       <div key={cancion._id || cancion.IdCancion  } className={`flex justify-between items-center w-full h-15 px-2 rounded-2xl hover:bg-[#171e2d] cursor-pointer ${!isDark&&"hover:bg-[#a2acff] text-[#5d6f95] hover:text-white"}`}
+                      onClick={()=> setRandomQueue(cancion,playlist.canciones)}
                       >
                           <div className='flex'>
                               <div className={`relative  w-10 h-10 rounded-sm bg-cover bg-center bg-no-repeat overflow-hidden `} style={{ 

@@ -16,11 +16,11 @@ const Home = () => {
   const navigate = useNavigate()
   const {isDark} = useThemeContext()
   const {autenticado} = useAuth()
-  const {playTrack} = useAudio();
+  const {playTrack, setQueue} = useAudio();
 
   return (
     <>
-          <div className='pt-4'>
+          <div className='pt-1'>
             <div className='flex items-center justify-between md:pr-5'>
               <h1 className={`md:mb-5 text-lg md:text-2xl font-bold ${!isDark&&"text-[#4e5c77]"}`}>Nuevos Lanzamientos</h1>
               <p className={`text-sm text-[#5c6b8a] hover:text-[#91dbfd]  hover:[text-shadow:0_0_5px_#81D4FA,0_0_15px_#81D4FA,0_0_10px_#81D4FA] transition cursor-pointer ${!isDark&&"hover:text-[#a2acff] pb-2 hover:[text-shadow:0_0_5px_#A2ACFF,0_0_15px_#E3E6FF,0_0_10px_#A2ACFF]"}`} onClick={()=>navigate('/recientes')}>Ver Todos</p>
@@ -33,6 +33,15 @@ const Home = () => {
               return(
                 <div key={cancion._id || cancion.IdCancion  } className={`flex-shrink-0 w-55 h-60 p-3  pb-4 rounded-2xl hover:bg-gradient-to-r from-[#89d6f9] to-[#42c1fc]
                       hover:shadow-sm hover:shadow-[#81D4FA]/50 hover:[box-shadow:0_0_20px_#81D4FA,0_0_40px_#81D4FA/60] hover:ring-1 hover:ring-[#81D4FA] group cursor-pointer ${!isDark&&"hover:bg-gradient-to-r from-[#e3e6ff] to-[#a2acff] hover:ring-transparent"}`}
+                            onClick={() => {
+                              if (!autenticado){
+                                navigate('/autenticacion');
+                                return
+                              } 
+                              playTrack(cancion)
+                              setQueue(null)
+                            }}
+                
                 >
                   <div className={`relative  w-full h-40 rounded-xl bg-cover bg-center bg-no-repeat overflow-hidden `} style={{ 
                     backgroundImage: `url(${cancion.imagen})` 
@@ -43,14 +52,7 @@ const Home = () => {
                      <i className={`bi bi-play-circle text-5xl text-white
                               opacity-0 group-hover:opacity-100 transition-all duration-200
                               ${autenticado ? "cursor-pointer" : ""}
-                            `}
-                            onClick={() => {
-                              if (!autenticado){
-                                navigate('/autenticacion');
-                                return
-                              } 
-                              playTrack(cancion)
-                            }}>
+                            `}>
                     </i>
         </div>
                   </div>

@@ -5,13 +5,15 @@ import { useAuth } from '../contexts/AuthContext';
 import Paginador from './Paginador';
 import { useParams } from 'react-router-dom';
 import Loader from './Loader';
+import { useAudio } from '../contexts/AudioContext';
 
 const FiltroGeneroCancion = () => {
   const {genero} = useParams()
     const {cancionesGenero, paginacion, obtenerPorGenero} = useMusic();
     const [pagina, setPagina] = useState(1)
     const {isDark} = useThemeContext()
-    const {autenticado} = useAuth()
+    const {autenticado} = useAuth();
+    const {setRandomQueue} = useAudio();
     const [cargandoLocal, setCargandoLocal] = useState(true);
 
     useEffect(()=>{
@@ -26,7 +28,7 @@ const FiltroGeneroCancion = () => {
   return (
     <>
     {cargandoLocal? (<Loader/>) : (
-               <div className='flex flex-col justify-between  pt-4'>
+               <div className='flex flex-col justify-between  pt-1'>
                 <div className='flex-1'>
             <div className='flex items-center justify-between'>
               <h1 className={`mb-5 text-2xl font-bold ${!isDark&&"text-[#4e5c77]"}`}>Descubre Nuevos Sonidos</h1>
@@ -38,6 +40,12 @@ const FiltroGeneroCancion = () => {
               return(
                 <div key={cancion._id || cancion.IdCancion  } className={`flex-shrink-0 w-55 h-60 p-3  pb-4 rounded-2xl hover:bg-gradient-to-r from-[#89d6f9] to-[#42c1fc]
                       hover:shadow-sm hover:shadow-[#81D4FA]/50 hover:[box-shadow:0_0_20px_#81D4FA,0_0_40px_#81D4FA/60] hover:ring-1 hover:ring-[#81D4FA] group cursor-pointer ${!isDark&&"hover:bg-gradient-to-r from-[#e3e6ff] to-[#a2acff] hover:ring-transparent"}`}
+                      
+                      onClick={()=>{
+                        if(autenticado){
+                            setRandomQueue(cancion, cancionesGenero)
+                        } 
+                      } }
                 >
                   <div className={`relative  w-full h-40 rounded-xl bg-cover bg-center bg-no-repeat overflow-hidden `} style={{ 
                     backgroundImage: `url(${cancion.imagen})` 
@@ -49,11 +57,7 @@ const FiltroGeneroCancion = () => {
                           <i className={`bi bi-play-circle text-5xl text-white
                               opacity-0 group-hover:opacity-100 transition-all duration-200
                               ${autenticado ? "cursor-pointer" : "cursor-not-allowed opacity-50"}
-                            `}
-                            onClick={() => {
-                              if (!autenticado) return;
-                              window.open(cancion.url, "_blank");
-                            }}>
+                            `}>
                             </i>
                       </div>
                   </div>
@@ -66,7 +70,7 @@ const FiltroGeneroCancion = () => {
             })}
           </div>
           </div>
-          <div className='mb-15'>
+          <div className='relative mb-20 lg:-translate-y-10'>
              <Paginador pagina={pagina} paginacion={paginacion} filtradoo={(nuevaPagina)=>setPagina(nuevaPagina)}/>
           </div>
          
