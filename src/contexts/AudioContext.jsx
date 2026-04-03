@@ -1,4 +1,5 @@
 import { createContext, useContext, useEffect, useRef, useState } from "react";
+import { useMusic } from "./MusicContext";
 
 const AudioContext = createContext();
 
@@ -11,6 +12,7 @@ export const AudioProvider = ({children}) =>{
     const [currentTime, setCurrentTime] = useState(0);
     const [duration, setDuration] = useState(0);
     const [isSoundOn, setSoundOn] = useState(true);
+    const {canciones} = useMusic();
     
 
     const playTrack = (track) =>{
@@ -75,23 +77,46 @@ export const AudioProvider = ({children}) =>{
         playTrack(tracks[0]);
     }
 
+    const setRandomQueue = (song, tracks) =>{
+        setQueue(tracks);
+        const index = tracks.findIndex(t => t._id === song._id)
+        playTrack(tracks[index]) 
+    }
+
     const nextTrack = () =>{
-        if(!currentTrack) return;
+        if(!queue){
+            playRandomSong()
+        }else{
+            const index = queue.findIndex(t => t._id === currentTrack._id);
+            const next = queue[index+1];
 
-        const index = queue.findIndex(t => t._id === currentTrack._id);
-        const next = queue[index+1];
+            if(next) playTrack(next)
+            else playTrack(queue[0])            
+        }
 
-        if(next) playTrack(next)
-        else playTrack(queue[0])
+
     }
 
     const prevTrack = () =>{
-        if(!currentTrack) return;
+        if(!queue){
+            playRandomSong();
+        }else{
+            const index = queue.findIndex(t => t._id === currentTrack._id);
+            const prev = queue[index-1];
 
-        const index = queue.findIndex(t => t._id === currentTrack._id);
-        const prev = queue[index-1];
+            if(prev) playTrack(prev);
+        } 
+    }
 
-        if(prev) playTrack(prev);
+    const playRandomSong = () =>{
+        const index_song = Math.floor(Math.random() * canciones.length);
+
+        try {
+            playTrack(canciones[index_song])
+        } catch (error) {
+            console.log("Error al reproducir cancion", error)
+        }
+        
     }
 
     useEffect(() =>{
@@ -99,7 +124,10 @@ export const AudioProvider = ({children}) =>{
 
         const handleTime = () => setCurrentTime(audio.currentTime);
         const handleLoaded = () => setDuration(audio.duration);
-        const handleEnded = () => nextTrack();
+        const handleEnded = () => {
+            if(!queue) playRandomSong();
+            else nextTrack()   
+        };
 
         audio.addEventListener("timeupdate", handleTime);
         audio.addEventListener("loadedmetadata", handleLoaded);
@@ -132,7 +160,9 @@ export const AudioProvider = ({children}) =>{
                 duration,
                 seek,
                 soundOff,
-                isSoundOn
+                isSoundOn,
+                setRandomQueue,
+                setQueue
             }}
             >
             {children}
