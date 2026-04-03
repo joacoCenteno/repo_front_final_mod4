@@ -11,9 +11,10 @@ const App = () => {
   return (
     <>
     <AuthProvider>
+                <MusicProvider>
       <AudioProvider>
         <PlaylistProvider>
-          <MusicProvider>
+
             <ThemeProvider>
             <AppRouter/> 
 
@@ -31,9 +32,10 @@ const App = () => {
               transition={Flip}
               />
               </ThemeProvider>
-          </MusicProvider>
+         
         </PlaylistProvider> 
       </AudioProvider>
+       </MusicProvider>
     </AuthProvider>
     </>
   )
