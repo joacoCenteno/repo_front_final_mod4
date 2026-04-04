@@ -62,7 +62,7 @@ const BuscadorCancion = () => {
     
   return (
     <>
-      <div className='w-full h-fit'>
+      <div className='w-full h-fit pb-10 md:pb-5'>
         <h4 className= {`font-medium text-2xl  ${!isDark&&" text-[#5d6f95]"}`}>Agrega Canciones</h4>
         <div className='w-full py-3'>
           <input

@@ -79,7 +79,7 @@ const Recientes = () => {
                 )
               })}
             </div>
-            <div className='relative mb-20 lg:-translate-y-9'>
+            <div className='relative mb-30 md:mb-20 lg:-translate-y-9'>
               <Paginador pagina={pagina} paginacion={paginacion} filtradoo={(nuevaPagina)=>setPagina(nuevaPagina)}/>
             </div>
           

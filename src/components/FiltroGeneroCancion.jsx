@@ -70,7 +70,7 @@ const FiltroGeneroCancion = () => {
             })}
           </div>
           </div>
-          <div className='relative mb-20 lg:-translate-y-10'>
+          <div className='relative mb-30 md:mb-20 lg:-translate-y-10'>
              <Paginador pagina={pagina} paginacion={paginacion} filtradoo={(nuevaPagina)=>setPagina(nuevaPagina)}/>
           </div>
          

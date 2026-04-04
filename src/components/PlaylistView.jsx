@@ -1,8 +1,10 @@
 import React from 'react'
 import { useThemeContext } from '../contexts/ThemeContext'
+import { useAuth } from '../contexts/AuthContext'
 
 const PlaylistView = () => {
     const {isDark} = useThemeContext()
+    const {autenticado} = useAuth();
  const playlist = [{
     id: 1,
     nombre: "Chill Songs",
@@ -26,7 +28,7 @@ const PlaylistView = () => {
 
   return (
     <>
-            <div className=' flex flex-col justify-center w-full md:w-1/2 pt-6 pb-15 md:pl-5 md:justify-normal'>
+            <div className={` flex flex-col justify-center w-full md:w-1/2 pt-6 md:pb-15 ${!autenticado?"pb-10":"pb-30"}  md:pl-5 md:justify-normal`}>
             <h1 className={`mb-5 text-2xl font-bold ${!isDark&&"text-[#4e5c77]"}`}>Playlists</h1>
 
             <div className='flex flex-wrap gap-2 md:gap-1 lg:gap-4 justify-center md:justify-around xl:justify-center'>

@@ -23,13 +23,13 @@ const Reproductor = () => {
      {!currentTrack || !autenticado ? <></> :
     
   
-       <div className={`fixed bottom-0 w-screen bg-gradient-to-r text-white pb-4 from-[#91dbfd] to-[#42c1fc] rounded-sm h-13 ${!isDark&&"hover:bg-gradient-to-r from-[#e3e6ff] to-[#a2acff] hover:ring-transparent"}`}>
+       <div className={`fixed bottom-0 w-screen bg-white/10 backdrop-blur-md shadow-lg h-25 md:h-13 ${!isDark&&"hover:bg-gradient-to-r from-[#e3e6ff] to-[#a2acff] hover:ring-transparent"}`}>
                     <>
-                    <div key={currentTrack._id } className=' flex justify-between items-center w-full h-15 p-3  pb-4 
+                    <div key={currentTrack._id } className='flex flex-col h-full md:flex-row px-2 sm:px-5 md:px-2 justify-between items-start  md:items-center w-full p-1 md:p-3 
                         '
                     >
-                        <div className='flex'>
-                            <div className={`relative  w-10 h-10 rounded-sm bg-cover bg-center bg-no-repeat overflow-hidden `} style={{ 
+                        <div className='flex md:w-50'>
+                            <div className={`relative w-10 h-10 rounded-sm bg-cover bg-center bg-no-repeat overflow-hidden `} style={{ 
                                 backgroundImage: `url(${currentTrack.imagen})` 
                             }}>
                             <div className="absolute inset-0 rounded-xl bg-gradient-to-r from-[#91dbfd] to-[#42c1fc] opacity-0  group-hover:opacity-40">
@@ -41,22 +41,30 @@ const Reproductor = () => {
                             <p className=' text-xs'>{currentTrack.artista}</p>
                             </div>
                         </div>
-                            <div className='w-1/2'>
+                            <div className='w-full md:w-1/2'>
                                 <input
                                     type="range"
                                     min="0"
                                     max={duration || 0}
                                     value={currentTime || 0}
                                     onChange={(e) => seek(e.target.value)}
-                                    className="w-full h-2 rounded-lg appearance-none cursor-pointer bg-white/30
-                                            [&::-webkit-slider-thumb]:appearance-none
-                                            [&::-webkit-slider-thumb]:h-4
-                                            [&::-webkit-slider-thumb]:w-4
-                                            [&::-webkit-slider-thumb]:rounded-full
-                                            [&::-webkit-slider-thumb]:bg-white
-                                            [&::-webkit-slider-thumb]:shadow-md
-                                            [&::-webkit-slider-thumb]:transition-transform
-                                            hover:[&::-webkit-slider-thumb]:scale-125"
+                                    className={`w-full h-1 appearance-none cursor-pointer
+                                    [&::-webkit-slider-runnable-track]:h-1.5
+                                    [&::-webkit-slider-runnable-track]:rounded-lg
+                                    ${!isDark&&"[&::-webkit-slider-runnable-track]:bg-black/20"
+                                    }
+
+                                    [&::-webkit-slider-thumb]:appearance-none
+                                    [&::-webkit-slider-thumb]:h-1.5
+                                    [&::-webkit-slider-thumb]:w-1.5
+                                    [&::-webkit-slider-thumb]:rounded-full
+                                    ${isDark 
+                                    ? "[&::-webkit-slider-thumb]:bg-white" 
+                                    : "[&::-webkit-slider-thumb]:bg-black"
+                                    }
+                                    [&::-webkit-slider-thumb]:shadow-md
+                                    
+                                `}
                                     style={{
                                     background: `linear-gradient(to right, white ${(currentTime / duration) * 100}%, rgba(255,255,255,0.3) ${(currentTime / duration) * 100}%)`
                                     }}
@@ -65,13 +73,13 @@ const Reproductor = () => {
 
 
 
-                        <div className='flex gap-9 mr-5  items-center'>
-                            <div className='flex gap-4'>
-                                <i class="bi bi-arrow-left-circle cursor-pointer text-2xl" onClick={prevTrack}></i>
+                        <div className='flex gap-9 w-full md:w-fit mr-5 justify-center items-center'>
+                            <div className='flex items-center gap-4'>
+                                <i className="bi bi-arrow-left-circle flex items-center cursor-pointer text-2xl" onClick={prevTrack}></i>
                                 <button onClick={togglePlay} className='cursor-pointer'>
-                                    {isPlaying ? <i className="bi bi-pause-circle text-2xl"></i> : <i className="bi bi-play-circle text-2xl"></i>}
+                                    {isPlaying ? <i className="bi bi-pause-circle flex items-center text-2xl"></i> : <i className="bi bi-play-circle flex items-center text-2xl"></i>}
                                 </button>
-                                <i class="bi bi-arrow-right-circle text-2xl cursor-pointer" onClick={nextTrack}></i>
+                                <i className="bi bi-arrow-right-circle flex items-center text-2xl cursor-pointer" onClick={nextTrack}></i>
                                 
                 
                             </div>
