@@ -4,6 +4,7 @@
 import { createContext, useContext, useState } from "react";
 import axios from "axios";
 import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
 
 const PlaylistContext = createContext();
 
@@ -12,6 +13,7 @@ const API = "https://repo-back-final-mod4.onrender.com"
 
 export const PlaylistProvider = ({children}) =>{
     const [playlist, setPlaylist] = useState(null)
+    const navigate = useNavigate()
     //POST
     const crearPlaylist = async (playlist) => {
         await axios.post(`${API}/playlists/crear`,playlist)
@@ -24,8 +26,12 @@ export const PlaylistProvider = ({children}) =>{
             setPlaylist(data)
             
         } catch (error) {
+            if(error.response?.status === 401){
+                setPlaylist(null);
+                navigate("/")
+            }else{
             console.error("Error obteniendo playliste", error)
-            toast.error("Error obteniendo playlist")
+            toast.error("Error obteniendo playlist")}
         }
     }
 

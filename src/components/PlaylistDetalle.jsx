@@ -9,10 +9,11 @@ import CancionPlaylistAccion from './CancionPlaylistAccion'
 import UserInfo from './UserInfo'
 import { useThemeContext } from '../contexts/ThemeContext'
 import { useAudio } from '../contexts/AudioContext'
+import { Navigate } from "react-router-dom";
 
 const PlaylistDetalle = () => {
     const {id} = useParams()
-    const {usuario} = useAuth()
+    const {usuario, autenticado} = useAuth()
     const { fetchPlaylistById, playlist} = usePlaylist()
     const {isDark} = useThemeContext()
     const [cargandoLocal, setCargandoLocal] = useState(true);
@@ -31,6 +32,10 @@ useEffect(() => {
 
   traerPlaylist()
 }, [id])
+
+if (!autenticado) {
+  return <Navigate to="/" />;
+}
 
   return (
     <> 
@@ -59,9 +64,9 @@ useEffect(() => {
                      
                   </div>
                   
-                  <div className='mt-3'>
+                  <div className='mt-3 h-fit'>
                     <h4 className={`font-medium ${!isDark&&" text-[#5d6f95]"}`}>Canciones</h4>
-                    <div className='overflow-y-scroll h-70 no-scrollbar'>
+                    <div className='overflow-y-scroll max-h-70 no-scrollbar'>
                     {!playlist.canciones ? <p>No posee canciones</p> : playlist.canciones.map((cancion) =>{
                         return(
                       <div key={cancion._id || cancion.IdCancion  } className={`flex justify-between items-center w-full h-15 px-2 rounded-2xl hover:bg-[#171e2d] cursor-pointer ${!isDark&&"hover:bg-[#a2acff] text-[#5d6f95] hover:text-white"}`}
