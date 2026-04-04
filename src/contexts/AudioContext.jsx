@@ -84,8 +84,22 @@ export const AudioProvider = ({children}) =>{
     }
 
     const nextTrack = () =>{
-        if(!queue){
-            playRandomSong()
+        localStorage.setItem("prevTrack", JSON.stringify(currentTrack));
+
+        if(!queue || queue.length ===0){
+            const nextStorage = localStorage.getItem("nextTrack");
+
+            if(nextStorage){
+                if(JSON.parse(nextStorage)._id === currentTrack._id){
+                    localStorage.removeItem("nextTrack")
+                    playRandomSong()
+                }else{
+                    playTrack(JSON.parse(nextStorage))
+                }
+                
+            }else{
+                playRandomSong()
+            }
         }else{
             const index = queue.findIndex(t => t._id === currentTrack._id);
             const next = queue[index+1];
@@ -98,8 +112,22 @@ export const AudioProvider = ({children}) =>{
     }
 
     const prevTrack = () =>{
-        if(!queue){
-            playRandomSong();
+        localStorage.setItem("nextTrack", JSON.stringify(currentTrack));
+
+        if(!queue || queue.length ===0){
+            const prevStorage = localStorage.getItem("prevTrack");
+
+            if(prevStorage){
+                if(JSON.parse(prevStorage)._id === currentTrack._id){
+                    localStorage.removeItem("prevTrack")
+                    playRandomSong()
+                }else{
+                    playTrack(JSON.parse(prevStorage))
+                }
+                
+            }else{
+                playRandomSong()
+            }
         }else{
             const index = queue.findIndex(t => t._id === currentTrack._id);
             const prev = queue[index-1];
