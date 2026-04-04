@@ -8,7 +8,7 @@ const Loader = () => {
 
   return (
     <>
-        <div className={`w-full h-screen z-50 fixed top-0 left-0 flex justify-center items-center transition-colors duration-300 ${
+        <div className={`w-full h-screen z-50 fixed top-0 left-0 flex flex-col justify-center items-center transition-colors duration-300 ${
         isDark ? "bg-[#121825]" : "bg-white"
       }`}>
           <MutatingDots
@@ -22,6 +22,7 @@ const Loader = () => {
         wrapperStyle={{}}
         wrapperClass=""
         />
+        <p className='text-gray-500'>Cargando Recursos...</p>
         </div>
     </>
 )
