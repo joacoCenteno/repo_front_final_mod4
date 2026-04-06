@@ -9,6 +9,7 @@ import { toast } from "react-toastify";
 const AuthContext = createContext();
 
 const API = "https://repo-back-final-mod4.onrender.com";
+// const API = "http://localhost:3000"
 
 export const AuthProvider = ({children}) => {
     const [usuario, setUsuario] = useState(null);

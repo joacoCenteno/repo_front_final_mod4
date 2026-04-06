@@ -6,7 +6,10 @@ const AudioContext = createContext();
 export const AudioProvider = ({children}) =>{
     const audioRef = useRef(new Audio());
 
-    const [currentTrack, setCurrentTrack] = useState(null);
+    const [currentTrack, setCurrentTrack] = useState(() => {
+        const saved = localStorage.getItem("ultimoTrack");
+        return saved ? JSON.parse(saved) : null;
+    });
     const [queue, setQueue] = useState([]);
     const [isPlaying, setIsPlaying] = useState(false);
     const [currentTime, setCurrentTime] = useState(0);
@@ -44,19 +47,10 @@ export const AudioProvider = ({children}) =>{
     }
 
     useEffect(() => {
-        const ultimoTrack = localStorage.getItem("ultimoTrack");
+        if (!currentTrack?.url || !audioRef.current) return;
 
-        if (!ultimoTrack) return;
-
-        const track = JSON.parse(ultimoTrack);
-        const audio = audioRef.current;
-
-        if (!track?.url) return;
-
-        audio.src = track.url;
-        // eslint-disable-next-line react-hooks/set-state-in-effect
-        setCurrentTrack(track);
-    }, []);
+        audioRef.current.src = currentTrack.url;
+    }, [currentTrack]);
 
     const pause = () =>{
         audioRef.current.pause();
