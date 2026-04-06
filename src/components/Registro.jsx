@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { useAuth } from '../contexts/AuthContext'
 import { Link, useNavigate } from 'react-router-dom'
 import { useThemeContext } from '../contexts/ThemeContext'
@@ -6,6 +6,7 @@ import { useForm } from 'react-hook-form'
 
 const Registro = () => {
     const {registro} = useAuth()
+    const [error, setError] = useState("")
     const {isDark} = useThemeContext()
 
     const {register, handleSubmit, formState: {errors, isSubmitting}} = useForm({
@@ -16,10 +17,12 @@ const Registro = () => {
 
     const onSubmit = async (data) =>{
         try {
+            setError("")
             await registro(data)
             navigate('/')
         } catch (error) {
             console.log(`Error: ${error}`)
+            setError("Usuario ya existente")
         }
     }
 
@@ -27,10 +30,10 @@ const Registro = () => {
     <>
         <h2 className={`font-bold text-2xl ${!isDark&&"text-[#4e5c77] "}`}>Registro de Usuario</h2>
 
-        
 
         <form action="post" onSubmit={handleSubmit(onSubmit)} className={`flex flex-col gap-4 bg-[#171e2d] text-[#42c1fc] shadow-xl p-6 rounded-2xl w-full max-w-md mx-auto ${!isDark&&"text-[#4e5c77] bg-[#eceeff]"}
              `}>
+            {error && <p className='text-red-400 text-sm text-center'>{error}</p>}
             <input {...register('email', {
                         required: 'Email es requerido',
                         pattern: {
