@@ -70,8 +70,8 @@ const Aside = () => {
                 <p className='text-[#5d6f95] font-bold mb-3'>MENU</p>
                 <ul>
                     <li className={`hover:text-[#91dbfd] cursor-pointer py-2 hover:[text-shadow:0_0_5px_#81D4FA,0_0_15px_#81D4FA,0_0_10px_#81D4FA] ${!isDark&&"hover:text-[#a2acff] text-white hover:[text-shadow:0_0_5px_#A2ACFF,0_0_15px_#E3E6FF,0_0_10px_#A2ACFF]"}`} onClick={()=>{navigate('/'); toggleMenu()}}>Inicio</li>
-                    <li className={`hover:text-[#91dbfd] cursor-pointer py-1 hover:[text-shadow:0_0_5px_#81D4FA,0_0_15px_#81D4FA,0_0_10px_#81D4FA] ${!isDark&&"hover:text-[#a2acff] text-white hover:[text-shadow:0_0_5px_#A2ACFF,0_0_15px_#E3E6FF,0_0_10px_#A2ACFF]"}`} onClick={()=>{navigate('/generos/cuarteto'); toggleMenu()}}>Cuarteto</li>
-                    <li className={`hover:text-[#91dbfd] cursor-pointer py-1 hover:[text-shadow:0_0_5px_#81D4FA,0_0_15px_#81D4FA,0_0_10px_#81D4FA] ${!isDark&&"hover:text-[#a2acff] text-white hover:[text-shadow:0_0_5px_#A2ACFF,0_0_15px_#E3E6FF,0_0_10px_#A2ACFF]"}`} onClick={()=>{navigate('/generos/rock'); toggleMenu()}}>Rock</li>
+                    <li className={`hover:text-[#91dbfd] cursor-pointer py-1 hover:[text-shadow:0_0_5px_#81D4FA,0_0_15px_#81D4FA,0_0_10px_#81D4FA] ${!isDark&&"hover:text-[#a2acff] text-white hover:[text-shadow:0_0_5px_#A2ACFF,0_0_15px_#E3E6FF,0_0_10px_#A2ACFF]"}`} onClick={()=>{if(autenticado){navigate('/generos/cuarteto');} else {navigate('/autenticacion');} toggleMenu()}}>Cuarteto</li>
+                    <li className={`hover:text-[#91dbfd] cursor-pointer py-1 hover:[text-shadow:0_0_5px_#81D4FA,0_0_15px_#81D4FA,0_0_10px_#81D4FA] ${!isDark&&"hover:text-[#a2acff] text-white hover:[text-shadow:0_0_5px_#A2ACFF,0_0_15px_#E3E6FF,0_0_10px_#A2ACFF]"}`} onClick={()=>{if(autenticado){navigate('/generos/rock');} else {navigate('/autenticacion');} toggleMenu()}}>Rock</li>
                 </ul>
             </div> 
             {hasRole(usuario,"admin") &&  
@@ -88,7 +88,7 @@ const Aside = () => {
 
                 <ul>
                     <li  className={`hover:text-[#91dbfd] cursor-pointer py-1 hover:[text-shadow:0_0_5px_#81D4FA,0_0_15px_#81D4FA,0_0_10px_#81D4FA] ${!isDark&&"hover:text-[#a2acff] text-white hover:[text-shadow:0_0_5px_#A2ACFF,0_0_15px_#E3E6FF,0_0_10px_#A2ACFF]"}`}>Recientemente Reproducidas</li>
-                    <li className={`hover:text-[#91dbfd] cursor-pointer py-1 hover:[text-shadow:0_0_5px_#81D4FA,0_0_15px_#81D4FA,0_0_10px_#81D4FA] ${!isDark&&"hover:text-[#a2acff] text-white hover:[text-shadow:0_0_5px_#A2ACFF,0_0_15px_#E3E6FF,0_0_10px_#A2ACFF]"}`} onClick={()=>{navigate(`/playlist/${playlist_fav._id}`); toggleMenu()}}>Canciones Favoritas</li>
+                    <li className={`hover:text-[#91dbfd] cursor-pointer py-1 hover:[text-shadow:0_0_5px_#81D4FA,0_0_15px_#81D4FA,0_0_10px_#81D4FA] ${!isDark&&"hover:text-[#a2acff] text-white hover:[text-shadow:0_0_5px_#A2ACFF,0_0_15px_#E3E6FF,0_0_10px_#A2ACFF]"}`} onClick={()=>{if(autenticado){navigate(`/playlist/${playlist_fav._id}`);}else{navigate('/autenticacion');} toggleMenu()}}>Canciones Favoritas</li>
                 </ul>
             </div>
             {autenticado && 

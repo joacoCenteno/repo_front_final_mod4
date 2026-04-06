@@ -18,8 +18,8 @@ const AsideMd = ({otrasPlaylists, playlist_fav}) => {
 
                 <ul>
                     <li className={`hover:text-[#91dbfd] cursor-pointer pb-1 hover:[text-shadow:0_0_5px_#81D4FA,0_0_15px_#81D4FA,0_0_10px_#81D4FA] ${!isDark&&"hover:text-[#a2acff] hover:[text-shadow:0_0_5px_#A2ACFF,0_0_15px_#E3E6FF,0_0_10px_#A2ACFF]"}`} onClick={()=>navigate('/')}>Inicio</li>
-                    <li className={`hover:text-[#91dbfd] cursor-pointer py-1 hover:[text-shadow:0_0_5px_#81D4FA,0_0_15px_#81D4FA,0_0_10px_#81D4FA] ${!isDark&&"hover:text-[#a2acff] hover:[text-shadow:0_0_5px_#A2ACFF,0_0_15px_#E3E6FF,0_0_10px_#A2ACFF]"}`} onClick={()=>navigate('/generos/cuarteto')}>Cuarteto</li>
-                    <li className={`hover:text-[#91dbfd] cursor-pointer py-1 hover:[text-shadow:0_0_5px_#81D4FA,0_0_15px_#81D4FA,0_0_10px_#81D4FA] ${!isDark&&"hover:text-[#a2acff] hover:[text-shadow:0_0_5px_#A2ACFF,0_0_15px_#E3E6FF,0_0_10px_#A2ACFF]"}`} onClick={()=>navigate('/generos/rock')}>Rock</li>
+                    <li className={`hover:text-[#91dbfd] cursor-pointer py-1 hover:[text-shadow:0_0_5px_#81D4FA,0_0_15px_#81D4FA,0_0_10px_#81D4FA] ${!isDark&&"hover:text-[#a2acff] hover:[text-shadow:0_0_5px_#A2ACFF,0_0_15px_#E3E6FF,0_0_10px_#A2ACFF]"}`} onClick={()=>{ autenticado ? navigate('/generos/cuarteto') : navigate('/autenticacion')}}>Cuarteto</li>
+                    <li className={`hover:text-[#91dbfd] cursor-pointer py-1 hover:[text-shadow:0_0_5px_#81D4FA,0_0_15px_#81D4FA,0_0_10px_#81D4FA] ${!isDark&&"hover:text-[#a2acff] hover:[text-shadow:0_0_5px_#A2ACFF,0_0_15px_#E3E6FF,0_0_10px_#A2ACFF]"}`} onClick={()=>{ autenticado ? navigate('/generos/rock') : navigate('/autenticacion')}}>Rock</li>
                 </ul>
             </div> 
 
