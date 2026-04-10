@@ -5,6 +5,7 @@ import Swal from 'sweetalert2'
 import { useAuth } from '../contexts/AuthContext'
 import { useThemeContext } from '../contexts/ThemeContext'
 import Loader from './Loader'
+import { useAudio } from '../contexts/AudioContext'
 
 const PlaylistAcciones = () => {
     const {id} = useParams()
@@ -14,6 +15,7 @@ const PlaylistAcciones = () => {
     const {cargarUsuarioCompleto} = useAuth()
     const {eliminarPlaylist} = usePlaylist()
     const {isDark} = useThemeContext()
+    const {resetQueue} = useAudio()
     const [cargandoLocal, setCargandoLocal] = useState(false);
 
     useEffect(() => {
@@ -60,6 +62,7 @@ const PlaylistAcciones = () => {
         if(result.isConfirmed){
           try{
             setCargandoLocal(true)
+            resetQueue()
             await eliminarPlaylist(id)
             await cargarUsuarioCompleto()
             navigate('/')

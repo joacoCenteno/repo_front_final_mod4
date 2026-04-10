@@ -54,9 +54,9 @@ const CancionPlaylistAccion = ({id_cancion}) => {
         <i className="bi bi-three-dots-vertical cursor-pointer" onClick={() => setOpen(!open)}></i>
 
         {open && (
-          <div className="absolute right-0 mt-2 w-32 bg-[#171e2d] rounded shadow-lg text-white z-50">
+          <div className="absolute right-0 mt-2 w-32 bg-[#eb4242] rounded shadow-lg text-white z-50">
             <button disabled={cargandoLocal}
-              className="block w-full text-left px-4 py-2 hover:bg-gray-700"
+              className="block w-full text-left px-4 py-2 rounded cursor-pointer hover:bg-[#d63c3c]"
               onClick={()=>{handleDelete(id_cancion)}}
             >
               Eliminar

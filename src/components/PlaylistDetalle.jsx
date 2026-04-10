@@ -69,7 +69,7 @@ if (!autenticado) {
                     <div className='overflow-y-scroll max-h-70 no-scrollbar'>
                     {!playlist.canciones ? <p>No posee canciones</p> : playlist.canciones.map((cancion) =>{
                         return(
-                      <div key={cancion._id || cancion.IdCancion  } className={`flex justify-between items-center w-full h-15 px-2 rounded-2xl hover:bg-[#171e2d] cursor-pointer ${!isDark&&"hover:bg-[#a2acff] text-[#5d6f95] hover:text-white"}`}
+                      <div key={cancion._id || cancion.IdCancion  } className={`flex justify-between items-center w-full h-15 px-2 rounded-2xl hover:bg-[#171e2d] z-1 cursor-pointer ${!isDark&&"hover:bg-[#a2acff] text-[#5d6f95] hover:text-white"}`}
                       onClick={()=> setRandomQueue(cancion,playlist.canciones)}
                       >
                           <div className='flex'>
@@ -86,9 +86,9 @@ if (!autenticado) {
                               </div>
                           </div>
                         {playlist.usuario && usuario._id === playlist.usuario._id && (
-                        <>
+                        <div onClick={(e) => e.stopPropagation()}>
                           <CancionPlaylistAccion id_cancion={cancion._id}/>
-                        </>
+                        </div>
                       )}
                           
 
