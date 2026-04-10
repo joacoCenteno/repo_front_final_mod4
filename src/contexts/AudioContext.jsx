@@ -18,22 +18,26 @@ export const AudioProvider = ({children}) =>{
     const {canciones} = useMusic();
     
 
-    const playTrack = (track) =>{
+    const playTrack = async (track) =>{
         const audio = audioRef.current;
 
 
         if (!track?.url) return;
 
-        // siempre cargar src primero
-        audio.src = track.url;
-
-        setCurrentTrack(track);
-        localStorage.setItem("ultimoTrack", JSON.stringify(track));
-
+        if(audio.src !== track.url){
+           audio.src = track.url;
+            setCurrentTrack(track);
+            localStorage.setItem("ultimoTrack", JSON.stringify(track));
+             
+        }
         audio.currentTime = 0;
 
-        audio.play().catch(() => {});
-        setIsPlaying(true);
+        try {
+            await audio.play();
+            setIsPlaying(true);
+        } catch (error) {
+            console.error("Error al reproducir:", error);
+        }
     }
 
     
@@ -46,11 +50,6 @@ export const AudioProvider = ({children}) =>{
 
     }
 
-    useEffect(() => {
-        if (!currentTrack?.url || !audioRef.current) return;
-
-        audioRef.current.src = currentTrack.url;
-    }, [currentTrack]);
 
     const pause = () =>{
         audioRef.current.pause();
@@ -68,13 +67,19 @@ export const AudioProvider = ({children}) =>{
 
     const playPlaylist = (tracks) =>{
         setQueue(tracks);
+        console.log("TODA PLAYLIST ", tracks)
         playTrack(tracks[0]);
+        console.log("PRIMERA CANCION ", tracks[0])
     }
 
     const setRandomQueue = (song, tracks) =>{
         setQueue(tracks);
         const index = tracks.findIndex(t => t._id === song._id)
         playTrack(tracks[index]) 
+    }
+
+    const resetQueue = () =>{
+        setQueue([]);
     }
 
     const nextTrack = () =>{
@@ -184,7 +189,8 @@ export const AudioProvider = ({children}) =>{
                 soundOff,
                 isSoundOn,
                 setRandomQueue,
-                setQueue
+                setQueue,
+                resetQueue
             }}
             >
             {children}
