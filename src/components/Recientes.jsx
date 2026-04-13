@@ -9,8 +9,9 @@ import Paginador from './Paginador';
 import { useAuth } from '../contexts/AuthContext';
 import { useAudio } from '../contexts/AudioContext';
 
-const Recientes = () => {
-  const {cancionesRecientes, paginacion, obtenerRecientes} = useMusic();
+const Recientes = ({ tipo }) => {
+  const {paginacion, obtenerRecientes} = useMusic();
+  const [canciones, setCanciones] = useState([])
   const [pagina, setPagina] = useState(1)
   const {isDark} = useThemeContext()
   const {autenticado} = useAuth()
@@ -21,7 +22,13 @@ const Recientes = () => {
     const cargaData = async(pagina) =>{
       try {
         setCargandoLocal(true)
-        await obtenerRecientes(pagina)
+        if(tipo === "local"){
+          const guardados = JSON.parse(localStorage.getItem("recientes")) || [];
+          setCanciones(guardados)
+        }else if(tipo === "api"){
+          const data = await obtenerRecientes(pagina)
+          setCanciones(data)
+        }
         setCargandoLocal(false)
       } catch (error) {
         setCargandoLocal(false)
@@ -31,6 +38,12 @@ const Recientes = () => {
     }
 
   cargaData(pagina)
+
+  window.addEventListener("recentUpdated", cargaData);
+
+  return () => {
+    window.removeEventListener("recentUpdated", cargaData);
+  };
 
   },[pagina])
 
@@ -45,10 +58,11 @@ const Recientes = () => {
               </div>
             
             
-            <div className={`flex justify-center lg:justify-start gap-3 mb-15 md:gap-6 md:pl-6 flex-wrap w-full ${!isDark&&"text-[#4e5c77]"}`}>
-              {cancionesRecientes && cancionesRecientes.map((cancion) =>{
+            <div className={`flex  justify-center lg:justify-start gap-3 mb-15 md:gap-6 lg:gap-8 md:pl-15 flex-wrap w-full ${!isDark&&"text-[#4e5c77]"}`}>
+              {canciones.length > 0 
+                ? (canciones.map((cancion) =>{
                 return(
-                  <div key={cancion._id || cancion.IdCancion  } className={`flex-shrink-0 w-50 sm:w-55 h-60 p-3  pb-4 rounded-2xl hover:bg-gradient-to-r from-[#89d6f9] to-[#42c1fc]
+                  <div key={cancion._id || cancion.IdCancion  } className={`flex-shrink-0 w-40 sm:w-55 md:w-50 h-60 p-3  pb-4 rounded-2xl hover:bg-gradient-to-r from-[#89d6f9] to-[#42c1fc]
                         hover:shadow-sm hover:shadow-[#81D4FA]/50 hover:[box-shadow:0_0_20px_#81D4FA,0_0_40px_#81D4FA/60] hover:ring-1 hover:ring-[#81D4FA] group cursor-pointer ${!isDark&&"hover:bg-gradient-to-r from-[#e3e6ff] to-[#a2acff] hover:ring-transparent"}`}
                             onClick={() =>{
                               if(autenticado){
@@ -77,11 +91,14 @@ const Recientes = () => {
                   </div>
                   
                 )
-              })}
+              })) : (<p className={`text-sm text-[#5c6b8a] ${!isDark&&"text-[#4e5c77]"}`}>No hay canciones disponibles para mostrar</p>)}
             </div>
-            <div className='relative mb-30 md:mb-20 lg:-translate-y-9'>
-              <Paginador pagina={pagina} paginacion={paginacion} filtradoo={(nuevaPagina)=>setPagina(nuevaPagina)}/>
-            </div>
+            {tipo === "api" && (
+              <div className='relative mb-30 md:mb-20 lg:-translate-y-9'>
+                <Paginador pagina={pagina} paginacion={paginacion} filtradoo={(nuevaPagina)=>setPagina(nuevaPagina)}/>
+              </div>              
+            )}
+
           
             </div>      
     )}

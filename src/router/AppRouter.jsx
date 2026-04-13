@@ -25,7 +25,8 @@ const AppRouter = () => {
 
       <Route element={<Layout/>}> 
             <Route path='/' element={<Home/>}/>
-            <Route path='/recientes'element={cargando ? <></> : autenticado ? <Recientes /> : <Navigate to="/autenticacion" /> }/>
+            <Route path='/estrenos' element={cargando ? <></> : autenticado ? <Recientes tipo={"api"}/> : <Navigate to="/autenticacion" /> }/>
+            <Route path='/recientes' element={cargando ? <></> : autenticado ? <Recientes tipo={"local"}/> : <Navigate to="/autenticacion" /> }/>
             <Route path='/playlist/:id' element={<RequierePermiso permiso={"read:playlists"}><PlaylistDetalle/></RequierePermiso>}/>
             <Route path='/playlists' element={<RequierePermiso permiso={"read:playlists"}><PlaylistFiltrado/></RequierePermiso>}/> 
             <Route path='/generos/:genero' element={<RequierePermiso permiso={"read:canciones"}><FiltroGeneroCancion/></RequierePermiso>}/> 

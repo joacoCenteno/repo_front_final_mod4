@@ -13,7 +13,6 @@ export const MusicProvider = ({children}) =>{
     const [canciones, setCanciones] = useState([]);
     const [loading, setLoading] = useState(false)
     const [paginacion,setPaginacion] = useState([])
-    const [cancionesRecientes, setCancionesRecientes] = useState([])
     const [cancionesGenero, setCancionesGenero] = useState([])
 
     const fetchCanciones = async () =>{
@@ -30,8 +29,9 @@ export const MusicProvider = ({children}) =>{
 
     const obtenerRecientes = async (page=1) =>{
         const res = await axios.get(`${API}/canciones/recientes?page=${page}`)
-        setCancionesRecientes(res.data.canciones)
-        setPaginacion(res.data.paginacion)
+        
+        setPaginacion(res.data.paginacion);
+        return res.data.canciones;
     }
 
     const obtenerPorGenero = async (genero,page=1) =>{
@@ -76,7 +76,7 @@ export const MusicProvider = ({children}) =>{
     
     
     return(
-        <MusicContext.Provider value={{canciones,loading, crearCancion,actualizarCancion, eliminarCancion, filtradoCancion, paginacion, cancionesRecientes, obtenerRecientes, cancionesGenero, obtenerPorGenero}}>
+        <MusicContext.Provider value={{canciones,loading, crearCancion,actualizarCancion, eliminarCancion, filtradoCancion, paginacion, obtenerRecientes, cancionesGenero, obtenerPorGenero}}>
             {children}
         </MusicContext.Provider>
     )

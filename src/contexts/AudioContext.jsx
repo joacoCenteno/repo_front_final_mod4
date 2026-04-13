@@ -28,8 +28,9 @@ export const AudioProvider = ({children}) =>{
            audio.src = track.url;
             setCurrentTrack(track);
             localStorage.setItem("ultimoTrack", JSON.stringify(track));
-             
         }
+
+        addTracktoRecentes(track);
         audio.currentTime = 0;
 
         try {
@@ -38,6 +39,18 @@ export const AudioProvider = ({children}) =>{
         } catch (error) {
             console.error("Error al reproducir:", error);
         }
+    }
+
+    const addTracktoRecentes = (track) =>{
+        const guardados = JSON.parse(localStorage.getItem("recientes")) || [];
+
+        const filtered_track = guardados.filter(t => t._id != track._id)
+
+        const actualizado = [track, ...filtered_track].slice(0,10);
+
+        localStorage.setItem("recientes", JSON.stringify(actualizado))
+
+        window.dispatchEvent(new Event("recentUpdated"));
     }
 
     
