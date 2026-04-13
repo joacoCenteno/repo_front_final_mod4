@@ -37,7 +37,7 @@ const AsideMd = ({otrasPlaylists, playlist_fav}) => {
                 <p className='text-[#5d6f95] font-bold mb-3'>MI MÚSICA</p>
 
                 <ul>
-                    <li  className={`hover:text-[#91dbfd] cursor-pointer pb-1 hover:[text-shadow:0_0_5px_#81D4FA,0_0_15px_#81D4FA,0_0_10px_#81D4FA] ${!isDark&&"hover:text-[#a2acff] pb-1 hover:[text-shadow:0_0_5px_#A2ACFF,0_0_15px_#E3E6FF,0_0_10px_#A2ACFF]"}`}>Recientemente Reproducidas</li>
+                    <li  className={`hover:text-[#91dbfd] cursor-pointer pb-1 hover:[text-shadow:0_0_5px_#81D4FA,0_0_15px_#81D4FA,0_0_10px_#81D4FA] ${!isDark&&"hover:text-[#a2acff] pb-1 hover:[text-shadow:0_0_5px_#A2ACFF,0_0_15px_#E3E6FF,0_0_10px_#A2ACFF]"}`} onClick={()=>navigate('/recientes')}>Recientemente Reproducidas</li>
                     <li className={`hover:text-[#91dbfd] cursor-pointer pb-1 hover:[text-shadow:0_0_5px_#81D4FA,0_0_15px_#81D4FA,0_0_10px_#81D4FA] ${!isDark&&"hover:text-[#a2acff] py-1 hover:[text-shadow:0_0_5px_#A2ACFF,0_0_15px_#E3E6FF,0_0_10px_#A2ACFF]"}`} onClick={()=> navigate(`/playlist/${playlist_fav._id}`)}>Canciones Favoritas</li>
                 </ul>
             </div>

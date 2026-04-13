@@ -48,16 +48,13 @@ const Reproductor = () => {
                                     className={`w-full h-1 appearance-none cursor-pointer
                                     [&::-webkit-slider-runnable-track]:h-1.5
                                     [&::-webkit-slider-runnable-track]:rounded-lg
-                                    ${!isDark&&"[&::-webkit-slider-runnable-track]:bg-black/20"
-                                    }
-
                                     [&::-webkit-slider-thumb]:appearance-none
                                     [&::-webkit-slider-thumb]:h-1.5
                                     [&::-webkit-slider-thumb]:w-1.5
                                     [&::-webkit-slider-thumb]:rounded-full
                                     ${isDark 
-                                    ? "[&::-webkit-slider-thumb]:bg-white" 
-                                    : "[&::-webkit-slider-thumb]:bg-black"
+                                    ? "[&::-webkit-slider-thumb]:bg-white [&::-webkit-slider-runnable-track]:bg-white/20" 
+                                    : "[&::-webkit-slider-thumb]:bg-black [&::-webkit-slider-runnable-track]:bg-black/20"
                                     }
                                     [&::-webkit-slider-thumb]:shadow-md
                                     

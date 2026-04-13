@@ -60,7 +60,7 @@ const Aside = () => {
       `}
     >
                 <button 
-                    className="absolute top-4 right-4 text-white"
+                    className="absolute top-4 right-4 text-white cursor-pointer"
                     onClick={toggleMenu}
                 >
                     <i className="bi bi-x-lg text-3xl"></i>
@@ -87,7 +87,7 @@ const Aside = () => {
                 <p className='text-[#5d6f95] font-bold '>MI MÚSICA</p>
 
                 <ul>
-                    <li  className={`hover:text-[#91dbfd] cursor-pointer py-1 hover:[text-shadow:0_0_5px_#81D4FA,0_0_15px_#81D4FA,0_0_10px_#81D4FA] ${!isDark&&"hover:text-[#a2acff] text-white hover:[text-shadow:0_0_5px_#A2ACFF,0_0_15px_#E3E6FF,0_0_10px_#A2ACFF]"}`}>Recientemente Reproducidas</li>
+                    <li  className={`hover:text-[#91dbfd] cursor-pointer py-1 hover:[text-shadow:0_0_5px_#81D4FA,0_0_15px_#81D4FA,0_0_10px_#81D4FA] ${!isDark&&"hover:text-[#a2acff] text-white hover:[text-shadow:0_0_5px_#A2ACFF,0_0_15px_#E3E6FF,0_0_10px_#A2ACFF]"}`} onClick={()=>{navigate('/recientes'); toggleMenu()}}>Recientemente Reproducidas</li>
                     <li className={`hover:text-[#91dbfd] cursor-pointer py-1 hover:[text-shadow:0_0_5px_#81D4FA,0_0_15px_#81D4FA,0_0_10px_#81D4FA] ${!isDark&&"hover:text-[#a2acff] text-white hover:[text-shadow:0_0_5px_#A2ACFF,0_0_15px_#E3E6FF,0_0_10px_#A2ACFF]"}`} onClick={()=>{if(autenticado){navigate(`/playlist/${playlist_fav._id}`);}else{navigate('/autenticacion');} toggleMenu()}}>Canciones Favoritas</li>
                 </ul>
             </div>
