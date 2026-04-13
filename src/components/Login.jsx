@@ -31,7 +31,7 @@ const Login = () => {
 
         
 
-        <form action="post" onSubmit={handleSubmit(onSubmit)} className={`flex flex-col gap-4 bg-[#171e2d] text-[#42c1fc] shadow-xl p-6 rounded-2xl w-full max-w-md mx-auto ${!isDark&&"text-[#4e5c77] bg-[#eceeff]"}
+        <form action="post" onSubmit={handleSubmit(onSubmit)} className={`flex flex-col gap-4  bg-[#171e2d] text-[#42c1fc] shadow-xl p-6 rounded-2xl w-full max-w-md mx-auto ${!isDark&&"text-[#4e5c77] bg-[#eceeff]"}
              `}>
               <p className='text-red-400 text-center'>{error}</p>
             <input {...register('email', {
