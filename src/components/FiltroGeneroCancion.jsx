@@ -36,7 +36,7 @@ const FiltroGeneroCancion = () => {
           
           
           <div className={`flex justify-center lg:justify-start gap-3 mb-15 md:gap-6 md:pl-15 flex-wrap w-full ${!isDark&&"text-[#4e5c77]"}`}>
-            {cancionesGenero && cancionesGenero.map((cancion) =>{
+            {cancionesGenero ? (cancionesGenero.map((cancion) =>{
               return(
                 <div key={cancion._id || cancion.IdCancion  } className={`flex-shrink-0 w-40 sm:w-55 md:w-50  h-60 p-3  pb-4 rounded-2xl hover:bg-gradient-to-r from-[#89d6f9] to-[#42c1fc]
                       hover:shadow-sm hover:shadow-[#81D4FA]/50 hover:[box-shadow:0_0_20px_#81D4FA,0_0_40px_#81D4FA/60] hover:ring-1 hover:ring-[#81D4FA] group cursor-pointer ${!isDark&&"hover:bg-gradient-to-r from-[#e3e6ff] to-[#a2acff] hover:ring-transparent"}`}
@@ -62,12 +62,12 @@ const FiltroGeneroCancion = () => {
                       </div>
                   </div>
 
-                  <p className='font-medium mt-3'>{cancion.titulo}</p>
-                  <p className='font-light'>{cancion.artista}</p>
+                  <p className='text-sm md:text-base font-medium mt-3'>{cancion.titulo}</p>
+                  <p className='text-sm md:text-base font-light'>{cancion.artista}</p>
                 </div>
                 
               )
-            })}
+            })) : (<p className='text-center'>Aún hay canciones disponibles para este género.</p>)}
           </div>
           </div>
           <div className='relative mb-30 md:mb-20 lg:-translate-y-10'>

@@ -1,10 +1,12 @@
 import React from 'react'
 import { useThemeContext } from '../contexts/ThemeContext'
 import { useAuth } from '../contexts/AuthContext'
+import { useNavigate } from 'react-router-dom'
 
 const PlaylistView = () => {
     const {isDark} = useThemeContext()
     const {autenticado} = useAuth();
+    const navigate = useNavigate();
  const playlist = [{
     id: 1,
     nombre: "Chill Songs",
@@ -39,6 +41,7 @@ const PlaylistView = () => {
                          cursor-pointer overflow-hidden group relative ' style={{ 
                         backgroundImage: `url(${playlist.imagen})` 
                     }}
+                    onClick={()=>{if(autenticado){navigate(`/generos/${playlist.nombre.split(" ")[0]}`);} else {navigate('/autenticacion');} }}
                     >
                     <div className="absolute inset-0 flex items-center justify-center 
                     bg-[#91dbfd]/30

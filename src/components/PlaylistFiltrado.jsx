@@ -71,7 +71,7 @@ export const PlaylistFiltrado = () => {
           </p>
         </div>
                       </div>
-                  <div className={`bg-[#171e2d] py-3 px-2 flex justify-between ${!isDark&&"bg-[#ccd1ff]"}`}>
+                  <div className={`bg-[#171e2d] py-3 px-2 flex justify-between transition-all duration-200 ease-linear ${!isDark&&"bg-[#ccd1ff]"}`}>
                       <p className='font-thin italic text-sm text-[#5d6f95]'>Created By: {p.usuario.username} </p>  
                       <button className='text-[#5d6f95] hover:text-white cursor-pointer transition' onClick={()=> navigate(`/playlist/${p._id}`)}>Ver Detalle</button>  
                   </div>                
