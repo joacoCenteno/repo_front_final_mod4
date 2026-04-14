@@ -38,7 +38,7 @@ const AsideMd = ({otrasPlaylists, playlist_fav}) => {
 
                 <ul>
                     <li  className={`hover:text-[#91dbfd] cursor-pointer pb-1 hover:[text-shadow:0_0_5px_#81D4FA,0_0_15px_#81D4FA,0_0_10px_#81D4FA] ${!isDark&&"hover:text-[#a2acff] pb-1 hover:[text-shadow:0_0_5px_#A2ACFF,0_0_15px_#E3E6FF,0_0_10px_#A2ACFF]"}`} onClick={()=>navigate('/recientes')}>Recientemente Reproducidas</li>
-                    <li className={`hover:text-[#91dbfd] cursor-pointer pb-1 hover:[text-shadow:0_0_5px_#81D4FA,0_0_15px_#81D4FA,0_0_10px_#81D4FA] ${!isDark&&"hover:text-[#a2acff] py-1 hover:[text-shadow:0_0_5px_#A2ACFF,0_0_15px_#E3E6FF,0_0_10px_#A2ACFF]"}`} onClick={()=> navigate(`/playlist/${playlist_fav._id}`)}>Canciones Favoritas</li>
+                    <li className={`hover:text-[#91dbfd] cursor-pointer pt-1 hover:[text-shadow:0_0_5px_#81D4FA,0_0_15px_#81D4FA,0_0_10px_#81D4FA] ${!isDark&&"hover:text-[#a2acff]  hover:[text-shadow:0_0_5px_#A2ACFF,0_0_15px_#E3E6FF,0_0_10px_#A2ACFF]"}`} onClick={()=> navigate(`/playlist/${playlist_fav._id}`)}>Canciones Favoritas</li>
                 </ul>
             </div>
             {autenticado && 
@@ -53,7 +53,7 @@ const AsideMd = ({otrasPlaylists, playlist_fav}) => {
                     <ul >
                         {otrasPlaylists.map(p => {
                             return (
-                                <li key={p._id}  className={`hover:text-[#91dbfd] cursor-pointer pb-1 hover:[text-shadow:0_0_5px_#81D4FA,0_0_15px_#81D4FA,0_0_10px_#81D4FA] ${!isDark&&"hover:text-[#a2acff] pb-2 hover:[text-shadow:0_0_5px_#A2ACFF,0_0_15px_#E3E6FF,0_0_10px_#A2ACFF]"}`} onClick={()=> navigate(`/playlist/${p._id}`)}>{p.nombre}</li>
+                                <li key={p._id}  className={`hover:text-[#91dbfd] cursor-pointer pb-1 hover:[text-shadow:0_0_5px_#81D4FA,0_0_15px_#81D4FA,0_0_10px_#81D4FA] ${!isDark&&"hover:text-[#a2acff] pb-1 hover:[text-shadow:0_0_5px_#A2ACFF,0_0_15px_#E3E6FF,0_0_10px_#A2ACFF]"}`} onClick={()=> navigate(`/playlist/${p._id}`)}>{p.nombre}</li>
                             )
                         })}
                     </ul>

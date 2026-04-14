@@ -15,7 +15,7 @@ const Layout = () => {
 
   return (
     <>
-      <div className={`flex flex-col w-full  ${isDark&&"dark:bg-[#121825] text-[#f5f6ff]"} font-display`}>
+      <div className={`flex flex-col w-full transition-all duration-200 ease-linear ${isDark&&"dark:bg-[#121825] text-[#f5f6ff]"} font-display`}>
       <div className=' relative md:flex'>
 
     

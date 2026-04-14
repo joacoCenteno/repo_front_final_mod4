@@ -42,7 +42,7 @@ const Aside = () => {
 
   return (
     <>
-    <div className={`w-fit relative bg-[#171e2d] md:relative md:flex ${!isDark&&"bg-[#e3e6ff]"}`}>
+    <div className={`w-fit relative bg-[#171e2d] md:relative md:flex ${!isDark&&"bg-[#e3e6ff]"} transition-all duration-200 ease-linear`}>
             <button 
                 className="md:hidden cursor-pointer top-4 left-4 z-50 text-white p-2"
                 onClick={toggleMenu}
@@ -102,7 +102,7 @@ const Aside = () => {
                     <ul >
                         {otrasPlaylists.map(p => {
                             return (
-                                <li key={p._id}  className={`hover:text-[#91dbfd] cursor-pointer py-1 hover:[text-shadow:0_0_5px_#81D4FA,0_0_15px_#81D4FA,0_0_10px_#81D4FA] ${!isDark&&"hover:text-[#a2acff] text-white hover:[text-shadow:0_0_5px_#A2ACFF,0_0_15px_#E3E6FF,0_0_10px_#A2ACFF]"}`} onClick={()=>{ navigate(`/playlist/${p._id}`); toggleMenu()}}>{p.nombre}</li>
+                                <li key={p._id}  className={`der hover:text-[#91dbfd] py-1 cursor-pointer hover:[text-shadow:0_0_5px_#81D4FA,0_0_15px_#81D4FA,0_0_10px_#81D4FA] ${!isDark&&"hover:text-[#a2acff] py-1 text-white hover:[text-shadow:0_0_5px_#A2ACFF,0_0_15px_#E3E6FF,0_0_10px_#A2ACFF]"}`} onClick={()=>{ navigate(`/playlist/${p._id}`); toggleMenu()}}>{p.nombre}</li>
                             )
                         })}
                     </ul>

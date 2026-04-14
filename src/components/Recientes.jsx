@@ -86,8 +86,8 @@ const Recientes = ({ tipo }) => {
                         </div>
                     </div>
 
-                    <p className='font-medium mt-3'>{cancion.titulo}</p>
-                    <p className='font-light'>{cancion.artista}</p>
+                    <p className='text-sm md:text-base font-medium mt-3'>{cancion.titulo}</p>
+                    <p className='text-sm md:text-base font-light'>{cancion.artista}</p>
                   </div>
                   
                 )

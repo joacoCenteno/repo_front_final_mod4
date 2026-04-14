@@ -17,7 +17,7 @@ const Search = () => {
   }
   return (
     <>
-<div className="w-full flex flex-wrap sm:flex-nowrap items-center gap-y-4 gap-x-2 sm:gap-3 sm:h-12 sm:pr-8 mb-5">
+<div className="w-full flex flex-wrap sm:flex-nowrap items-center gap-y-4 gap-x-2 sm:gap-3 sm:h-12 sm:pr-8 mb-5 ">
 
   <div
     className="flex flex-1 items-center cursor-pointer order-1 sm:flex-none"
@@ -56,20 +56,20 @@ const Search = () => {
   </div>
 
 
-  <div className="w-full  sm:flex-1 order-3 sm:order-2">
+  <div className="w-full  sm:flex-1 order-3 sm:order-2 ">
     <div className="flex items-center m-auto md:w-100">
       <input
         type="text"
         className={`w-full rounded-l-xl bg-[#171e2d] py-1.5 px-3 focus:outline-none ${
           !isDark && "bg-[#e3e6ff] text-black"
-        }`}
+        } transition-all duration-200 ease-linear`}
         placeholder="Buscar Playlists"
         onChange={e => setQuery(e.target.value)}
       />
       <div
         className={`bg-[#171e2d] py-1.5 px-3 rounded-r-xl cursor-pointer ${
           !isDark && "bg-[#e3e6ff] text-[#4e5c77]"
-        }`}
+        } transition-all duration-200 ease-linear`}
         onClick={handleSearch}
       >
         <i className="bi bi-search"></i>

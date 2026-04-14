@@ -23,7 +23,7 @@ const Home = () => {
           <div className='pt-1'>
             <div className='flex items-center justify-between md:pr-5'>
               <h1 className={`md:mb-5 text-lg md:text-2xl font-bold ${!isDark&&"text-[#4e5c77]"}`}>Nuevos Lanzamientos</h1>
-              <p className={`text-sm text-[#5c6b8a] hover:text-[#91dbfd]  hover:[text-shadow:0_0_5px_#81D4FA,0_0_15px_#81D4FA,0_0_10px_#81D4FA] transition cursor-pointer ${!isDark&&"hover:text-[#a2acff] pb-2 hover:[text-shadow:0_0_5px_#A2ACFF,0_0_15px_#E3E6FF,0_0_10px_#A2ACFF]"}`} onClick={()=>navigate('/estrenos')}>Ver Todos</p>
+              <p className={`text-sm text-[#5c6b8a] hover:text-[#91dbfd]  hover:[text-shadow:0_0_5px_#81D4FA,0_0_15px_#81D4FA,0_0_10px_#81D4FA] transition cursor-pointer ${!isDark&&"hover:text-[#a2acff] hover:[text-shadow:0_0_5px_#A2ACFF,0_0_15px_#E3E6FF,0_0_10px_#A2ACFF]"}`} onClick={()=>navigate('/estrenos')}>Ver Todos</p>
 
             </div>
           
