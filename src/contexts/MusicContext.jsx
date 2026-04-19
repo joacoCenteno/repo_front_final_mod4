@@ -3,6 +3,7 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 import { createContext, useState, useEffect, useContext } from "react";
 import axios from "axios";
+import { toast } from "react-toastify";
 
 const MusicContext = createContext();
 
@@ -50,6 +51,7 @@ export const MusicProvider = ({children}) =>{
     const crearCancion = async (cancion) => {
         const {data} = await axios.post(`${API}/canciones/crear`,cancion)
         setCanciones((prev) => [...prev,data])
+        toast.success("Cancion creada con exito")
     }
 
     const actualizarCancion = async (id, datos_actualizados) =>{
@@ -57,11 +59,13 @@ export const MusicProvider = ({children}) =>{
         setCanciones((prev)=>
             prev.map((cancion) => (cancion._id === id ? data.cancion : cancion))
         )
+        toast.success("Cancion actualizada con exito")
     }
 
     const eliminarCancion = async (id) =>{
         await axios.delete(`${API}/canciones/eliminar/${id}`)
         setCanciones((prev) => prev.filter((cancion) => cancion._id !== id))
+        toast.success("Cancion eliminada con exito")
     }
 
     const filtradoCancion = async (query, pagina) =>{

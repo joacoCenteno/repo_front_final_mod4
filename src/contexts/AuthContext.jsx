@@ -5,17 +5,20 @@ import axios from "axios";
 import { createContext, useContext, useEffect, useState } from "react";
 import Loader from "../components/Loader";
 import { toast } from "react-toastify";
+import { useNavigate } from 'react-router-dom';
 
 const AuthContext = createContext();
 
 const API = "https://repo-back-final-mod4.onrender.com";
-// const API = "http://localhost:3000"
+//  const API = "http://localhost:3000"
 
 export const AuthProvider = ({children}) => {
     const [usuario, setUsuario] = useState(null);
     const [token, setToken] = useState(null);
     const [cargando, setCargando] = useState(true);
     const [permisos, setPermisos] = useState([]);
+
+    const navigate = useNavigate();
 
     const cargarUsuarioCompleto = async () =>{
         try {
@@ -67,15 +70,40 @@ export const AuthProvider = ({children}) => {
     }
 
     const registro = async(dataForm) =>{
-        const {data} = await axios.post(`${API}/auth/register`, dataForm)
-        guardarSesion(data.token)
-        toast.success("Registro exitoso!")
+        try {
+            const {data} = await axios.post(`${API}/auth/register`, dataForm)
+            guardarSesion(data.token)
+            toast.success("Registro exitoso!")  
+            navigate('/') 
+            return {success: true} 
+        } catch (error) {
+            return{
+                success: false,
+                status: error.response?.status,
+                message: error.response?.data?.message,
+                retryAfter: error.response?.data?.retryAfter
+            }
+        }
+
     }
 
     const login = async(dataForm) =>{
-        const {data} = await axios.post(`${API}/auth/login`, dataForm)
-        guardarSesion(data.token)
-        toast.success("Bienvenido!")
+        try {
+            const {data} = await axios.post(`${API}/auth/login`, dataForm)
+            guardarSesion(data.token)
+            toast.success("Bienvenido!")   
+             navigate('/') 
+             return {success: true}        
+        } catch (error) {
+            console.log(error)
+            return {
+                succes: false,
+                status: error.response?.status,
+                message: error.response?.data?.message,
+                retryAfter: error.response?.data?.retryAfter
+            }
+        }
+
     }
 
     const logout = () =>{
