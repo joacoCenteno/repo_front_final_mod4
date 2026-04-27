@@ -81,7 +81,6 @@ export const AuthProvider = ({children}) => {
                 success: false,
                 status: error.response?.status,
                 message: error.response?.data?.message,
-                retryAfter: error.response?.data?.retryAfter
             }
         }
 
@@ -95,12 +94,10 @@ export const AuthProvider = ({children}) => {
              navigate('/') 
              return {success: true}        
         } catch (error) {
-            console.log(error)
             return {
                 succes: false,
                 status: error.response?.status,
                 message: error.response?.data?.message,
-                retryAfter: error.response?.data?.retryAfter
             }
         }
 
