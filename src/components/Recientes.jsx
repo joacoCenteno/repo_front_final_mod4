@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useRef } from 'react'
 import { useMusic } from '../contexts/MusicContext';
 import Loader from './Loader';
 import Aside from './Aside';
@@ -16,23 +16,34 @@ const Recientes = ({ tipo }) => {
   const {isDark} = useThemeContext()
   const {autenticado} = useAuth()
   const [cargandoLocal, setCargandoLocal] = useState(true)
-  const {playTrack, setQueue} = useAudio();
+  const {playTrack, setQueue, isPlaying, togglePlay, currentTrack} = useAudio();
+
+  const cancionesRef = useRef([]);
+  useEffect(() => {
+    cancionesRef.current = canciones;
+  }, [canciones]);
 
   useEffect(()=>{
-    const cargaData = async(pagina) =>{
+    const cargaData = async(paginaArg) =>{
+      const tieneCanciones = cancionesRef.current.length > 0;
       try {
-        setCargandoLocal(true)
+        if (!tieneCanciones) {
+          setCargandoLocal(true);
+        }
         if(tipo === "local"){
           const guardados = JSON.parse(localStorage.getItem("recientes")) || [];
           setCanciones(guardados)
         }else if(tipo === "api"){
-          const data = await obtenerRecientes(pagina)
+          const nroPagina = typeof paginaArg === 'number' ? paginaArg : pagina;
+          const data = await obtenerRecientes(nroPagina)
           setCanciones(data)
         }
         setCargandoLocal(false)
       } catch (error) {
         setCargandoLocal(false)
         console.log("Error al cargar recientes", error)
+      }finally{
+        setCargandoLocal(false)
       }
 
     }
@@ -45,7 +56,7 @@ const Recientes = ({ tipo }) => {
     window.removeEventListener("recentUpdated", cargaData);
   };
 
-  },[pagina])
+  },[pagina, tipo])
 
 
   return (
@@ -65,9 +76,14 @@ const Recientes = ({ tipo }) => {
                   <div key={cancion._id || cancion.IdCancion  } className={`flex-shrink-0 w-40 sm:w-55 md:w-50 h-60 p-3  pb-4 rounded-2xl hover:bg-gradient-to-r from-[#89d6f9] to-[#42c1fc]
                         hover:shadow-sm hover:shadow-[#81D4FA]/50 hover:[box-shadow:0_0_20px_#81D4FA,0_0_40px_#81D4FA/60] hover:ring-1 hover:ring-[#81D4FA] group cursor-pointer ${!isDark&&"hover:bg-gradient-to-r from-[#e3e6ff] to-[#a2acff] hover:ring-transparent"}`}
                             onClick={() =>{
-                              if(autenticado){
-                                  playTrack(cancion);
-                                  setQueue(null);
+                              if(autenticado ){
+                                  if(currentTrack?._id == cancion._id && isPlaying ){
+                                    togglePlay();
+                                  }
+                                  else{
+                                    playTrack(cancion);
+                                    setQueue(null);                                  
+                                  }
                               }
                             }}
                   >
@@ -78,11 +94,13 @@ const Recientes = ({ tipo }) => {
                     </div>
 
                           <div className="absolute inset-0 flex items-center justify-center">
-                            <i className={`bi bi-play-circle text-5xl text-white
+                            {isPlaying && currentTrack?._id == cancion._id  ? (<i className={`bi bi-pause-circle text-5xl text-white
                                 opacity-0 group-hover:opacity-100 transition-all duration-200
                                 ${autenticado ? "cursor-pointer" : "cursor-not-allowed opacity-50"}
                               `}>
-                              </i>
+                              </i>) : (<i className={`bi bi-play-circle  text-white
+                                opacity-0 group-hover:opacity-100 transition-all duration-200  text-5xl ${autenticado ? "cursor-pointer" : "cursor-not-allowed opacity-50"}`}></i>)}
+
                         </div>
                     </div>
 
