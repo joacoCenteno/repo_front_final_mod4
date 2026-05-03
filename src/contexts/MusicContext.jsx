@@ -2,12 +2,11 @@
 /* eslint-disable react-refresh/only-export-components */
 /* eslint-disable react-hooks/rules-of-hooks */
 import { createContext, useState, useEffect, useContext } from "react";
-import axios from "axios";
+import axios from "../utils/axios";
 import { toast } from "react-toastify";
 
 const MusicContext = createContext();
 
-// const API = "https://repo-back-final-mod4.onrender.com"
 const API = "https://repo-back-final-mod4.onrender.com"
 
 export const MusicProvider = ({children}) =>{
@@ -19,7 +18,7 @@ export const MusicProvider = ({children}) =>{
     const fetchCanciones = async () =>{
         setLoading(true)
         try {
-            const {data} = await axios.get(`${API}/canciones`)
+            const {data} = await axios.get(`/canciones`)
             setCanciones(data)
         } catch (error) {
             console.error("Error al hacer el fetch a canciones", error)
@@ -29,7 +28,7 @@ export const MusicProvider = ({children}) =>{
     }
 
     const obtenerRecientes = async (page=1) =>{
-        const res = await axios.get(`${API}/canciones/recientes?page=${page}`)
+        const res = await axios.get(`/canciones/recientes?page=${page}`)
         
         setPaginacion(res.data.paginacion);
         return res.data.canciones;
@@ -37,7 +36,7 @@ export const MusicProvider = ({children}) =>{
 
     const obtenerPorGenero = async (genero,page=1) =>{
         try {
-            const res = await axios.get(`${API}/canciones/filtros?genero=${genero}&page=${page}`)
+            const res = await axios.get(`/canciones/filtros?genero=${genero}&page=${page}`)
             setCancionesGenero(res.data.canciones)
             setPaginacion(res.data.paginacion)            
         } catch (error) {
@@ -49,13 +48,13 @@ export const MusicProvider = ({children}) =>{
 
     //POST
     const crearCancion = async (cancion) => {
-        const {data} = await axios.post(`${API}/canciones/crear`,cancion)
+        const {data} = await axios.post(`/canciones/crear`,cancion)
         setCanciones((prev) => [...prev,data])
         toast.success("Cancion creada con exito")
     }
 
     const actualizarCancion = async (id, datos_actualizados) =>{
-        const {data} = await axios.put(`${API}/canciones/actualizar/${id}`, datos_actualizados)
+        const {data} = await axios.put(`/canciones/actualizar/${id}`, datos_actualizados)
         setCanciones((prev)=>
             prev.map((cancion) => (cancion._id === id ? data.cancion : cancion))
         )
@@ -63,13 +62,13 @@ export const MusicProvider = ({children}) =>{
     }
 
     const eliminarCancion = async (id) =>{
-        await axios.delete(`${API}/canciones/eliminar/${id}`)
+        await axios.delete(`/canciones/eliminar/${id}`)
         setCanciones((prev) => prev.filter((cancion) => cancion._id !== id))
         toast.success("Cancion eliminada con exito")
     }
 
     const filtradoCancion = async (query, pagina) =>{
-        const {data} = await axios.get(`${API}/canciones/buscar?q=${query}&page=${pagina}`)
+        const {data} = await axios.get(`/canciones/buscar?q=${query}&page=${pagina}`)
         return data
     }
 

@@ -16,6 +16,16 @@ export const AudioProvider = ({children}) =>{
     const [duration, setDuration] = useState(0);
     const [isSoundOn, setSoundOn] = useState(true);
     const {canciones} = useMusic();
+
+    useEffect(() => {
+    if (currentTrack?.url) {
+        const audio = audioRef.current;
+
+        if (audio.src !== currentTrack.url) {
+            audio.src = currentTrack.url;
+        }
+    }
+}, [currentTrack]);
     
 
     const playTrack = async (track) =>{
