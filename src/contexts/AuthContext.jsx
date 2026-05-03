@@ -1,7 +1,7 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable react-hooks/set-state-in-effect */
 /* eslint-disable react-refresh/only-export-components */
-import axios from "axios";
+import axios from "../utils/axios";
 import { createContext, useContext, useEffect, useState } from "react";
 import Loader from "../components/Loader";
 import { toast } from "react-toastify";
@@ -9,12 +9,11 @@ import { useNavigate } from 'react-router-dom';
 
 const AuthContext = createContext();
 
-const API = "https://repo-back-final-mod4.onrender.com";
+// const API = "https://repo-back-final-mod4.onrender.com";
 //  const API = "http://localhost:3000"
 
 export const AuthProvider = ({children}) => {
     const [usuario, setUsuario] = useState(null);
-    const [token, setToken] = useState(null);
     const [cargando, setCargando] = useState(true);
     const [permisos, setPermisos] = useState([]);
 
@@ -22,17 +21,19 @@ export const AuthProvider = ({children}) => {
 
     const cargarUsuarioCompleto = async () =>{
         try {
-            const {data }= await axios.get(`${API}/user/me`);
+            const {data }= await axios.get(`/user/me`);
             setUsuario(data);
-            localStorage.setItem("usuario", JSON.stringify(data))
             const listaPermisos = data.role.permissions.map(p => p.nombre);
             setPermisos(listaPermisos);
         } catch (error) {
-            console.log("Error cargando usaurio:",error);
-            setUsuario(null);
-            localStorage.removeItem("token");
-            localStorage.removeItem("usuario"); 
-           
+            if(error.response?.status === 401){
+                setUsuario(null);
+                setPermisos([]);                
+            }else{
+                console.log("Error cargando usaurio:",error);
+            }
+            
+     
         }finally{
             setCargando(false)
         }
@@ -41,38 +42,14 @@ export const AuthProvider = ({children}) => {
 
 
     useEffect(() => {
-      const tokenGuardado = localStorage.getItem("token");
-      const usuarioGuardado = localStorage.getItem("usuario");
-
-      if(tokenGuardado && usuarioGuardado){
-        setToken(tokenGuardado);
-
-        axios.defaults.headers.common["authorization"] = `Bearer ${tokenGuardado}`;
-
         cargarUsuarioCompleto()
-      }else{
-        setCargando(false)
-      }
     }, []);
 
 
-    
-    const guardarSesion = async (tokenRecibido) =>{
-        setToken(tokenRecibido)
-
-
-        localStorage.setItem("token", tokenRecibido);
-
-        axios.defaults.headers.common["authorization"] = `Bearer ${tokenRecibido}`;
-
-        setCargando(true)
-        await cargarUsuarioCompleto()
-    }
-
     const registro = async(dataForm) =>{
         try {
-            const {data} = await axios.post(`${API}/auth/register`, dataForm)
-            guardarSesion(data.token)
+            const {data} = await axios.post(`/auth/register`, dataForm)
+            await cargarUsuarioCompleto()
             toast.success("Registro exitoso!")  
             navigate('/') 
             return {success: true} 
@@ -88,8 +65,8 @@ export const AuthProvider = ({children}) => {
 
     const login = async(dataForm) =>{
         try {
-            const {data} = await axios.post(`${API}/auth/login`, dataForm)
-            guardarSesion(data.token)
+            const {data} = await axios.post(`/auth/login`, dataForm)
+            await cargarUsuarioCompleto();
             toast.success("Bienvenido!")   
              navigate('/') 
              return {success: true}        
@@ -103,15 +80,20 @@ export const AuthProvider = ({children}) => {
 
     }
 
-    const logout = () =>{
-            setToken(null);
+    const logout = async () => {
+        try {
+            const res = await axios.post("/auth/logout");
+
             setUsuario(null);
+            setPermisos([]);
 
-            localStorage.removeItem("token");
-            localStorage.removeItem("usuario");
+            navigate("/");
+            toast.success(res.data?.message)
 
-            delete axios.defaults.headers.common["authorization"]    
-    }
+        } catch (error) {
+            console.log(error);
+        }
+    };
 
     
     const tienePermiso = (permiso) =>{
@@ -120,7 +102,7 @@ export const AuthProvider = ({children}) => {
 
 
     return (
-        <AuthContext.Provider value={{usuario, cargando, token, registro, login, logout, autenticado: !!usuario, tienePermiso, cargarUsuarioCompleto}}>
+        <AuthContext.Provider value={{usuario, cargando, registro, login, logout, autenticado: !!usuario, tienePermiso, cargarUsuarioCompleto}}>
             {children}
         </AuthContext.Provider>
     ) 
