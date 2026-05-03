@@ -20,7 +20,7 @@ const Reproductor = () => {
 
   return (
     <>  
-       <div className={`fixed bottom-0 w-screen bg-white/10 backdrop-blur-md shadow-lg h-25 md:h-13 transition-transform duration-600  ease-in-out ${(currentTrack && autenticado) ? 'translate-y-0 opacity-100' : 'translate-y-full opacity-0'} ${!isDark&&"hover:bg-gradient-to-r from-[#e3e6ff] to-[#a2acff] hover:ring-transparent"} `}>
+       <div className={`fixed bottom-0 w-screen bg-white/10 backdrop-blur-md shadow-lg h-25 md:h-13 transition-transform duration-600  ease-in-out ${(currentTrack && autenticado) ? 'translate-y-0 opacity-100' : 'translate-y-full opacity-0'} `}>
                     <>
                     <div key={currentTrack._id } className='flex flex-col h-full md:flex-row px-2 sm:px-5 md:px-2 justify-between items-start  md:items-center w-full p-1 md:p-3 
                         '
