@@ -13,7 +13,7 @@ const FiltroGeneroCancion = () => {
     const [pagina, setPagina] = useState(1)
     const {isDark} = useThemeContext()
     const {autenticado} = useAuth();
-    const {setRandomQueue} = useAudio();
+    const {playTrack, setRandomQueue, isPlaying, togglePlay, currentTrack} = useAudio();
     const [cargandoLocal, setCargandoLocal] = useState(true);
 
     useEffect(()=>{
@@ -41,11 +41,17 @@ const FiltroGeneroCancion = () => {
                 <div key={cancion._id || cancion.IdCancion  } className={`flex-shrink-0 w-40 sm:w-55 md:w-50  h-60 p-3  pb-4 rounded-2xl hover:bg-gradient-to-r from-[#89d6f9] to-[#42c1fc]
                       hover:shadow-sm hover:shadow-[#81D4FA]/50 hover:[box-shadow:0_0_20px_#81D4FA,0_0_40px_#81D4FA/60] hover:ring-1 hover:ring-[#81D4FA] group cursor-pointer ${!isDark&&"hover:bg-gradient-to-r from-[#e3e6ff] to-[#a2acff] hover:ring-transparent"}`}
                       
-                      onClick={()=>{
-                        if(autenticado){
-                            setRandomQueue(cancion, cancionesGenero)
-                        } 
-                      } }
+                            onClick={() =>{
+                              if(autenticado ){
+                                  if(currentTrack?._id == cancion._id && isPlaying ){
+                                    togglePlay();
+                                  }
+                                  else{
+                                    playTrack(cancion);
+                                    setRandomQueue(cancion, cancionesGenero)                                  
+                                  }
+                              }
+                            }}
                 >
                   <div className={`relative  w-full h-40 rounded-xl bg-cover bg-center bg-no-repeat overflow-hidden `} style={{ 
                     backgroundImage: `url(${cancion.imagen})` 
@@ -54,11 +60,12 @@ const FiltroGeneroCancion = () => {
                   </div>
 
                         <div className="absolute inset-0 flex items-center justify-center">
-                          <i className={`bi bi-play-circle text-5xl text-white
-                              opacity-0 group-hover:opacity-100 transition-all duration-200
-                              ${autenticado ? "cursor-pointer" : "cursor-not-allowed opacity-50"}
-                            `}>
-                            </i>
+                            {isPlaying && currentTrack?._id == cancion._id  ? (<i className={`bi bi-pause-circle text-5xl text-white
+                                opacity-0 group-hover:opacity-100 transition-all duration-200
+                                ${autenticado ? "cursor-pointer" : "cursor-not-allowed opacity-50"}
+                              `}>
+                              </i>) : (<i className={`bi bi-play-circle  text-white
+                                opacity-0 group-hover:opacity-100 transition-all duration-200  text-5xl ${autenticado ? "cursor-pointer" : "cursor-not-allowed opacity-50"}`}></i>)}
                       </div>
                   </div>
 
