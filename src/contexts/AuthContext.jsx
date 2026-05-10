@@ -16,17 +16,20 @@ export const AuthProvider = ({children}) => {
     const [usuario, setUsuario] = useState(null);
     const [cargando, setCargando] = useState(true);
     const [permisos, setPermisos] = useState([]);
+    const [token, setToken] = useState(null);
 
     const navigate = useNavigate();
 
     const cargarUsuarioCompleto = async () =>{
         try {
             const {data }= await axios.get(`/user/me`);
+            localStorage.setItem("usuario", JSON.stringify(data))
             setUsuario(data);
             const listaPermisos = data.role.permissions.map(p => p.nombre);
             setPermisos(listaPermisos);
         } catch (error) {
             if(error.response?.status === 401){
+                console.log("ERROR BROOO")
                 setUsuario(null);
                 setPermisos([]);                
             }else{
@@ -42,8 +45,32 @@ export const AuthProvider = ({children}) => {
 
 
     useEffect(() => {
+      const tokenGuardado = localStorage.getItem("token");
+      const usuarioGuardado = localStorage.getItem("usuario");
+
+      if(tokenGuardado && usuarioGuardado){
+        setToken(tokenGuardado);
+
+        axios.defaults.headers.common["Authorization"] = `Bearer ${tokenGuardado}`;
+
         cargarUsuarioCompleto()
+      }else{
+        setCargando(false)
+      }
     }, []);
+
+
+   const guardarSesion = async (tokenRecibido) =>{
+        setToken(tokenRecibido)
+
+
+        localStorage.setItem("token", tokenRecibido);
+
+        axios.defaults.headers.common["Authorization"] = `Bearer ${tokenRecibido}`;
+
+        setCargando(true)
+        await cargarUsuarioCompleto()
+    }
 
 
     const registro = async(dataForm) =>{
@@ -66,7 +93,10 @@ export const AuthProvider = ({children}) => {
     const login = async(dataForm) =>{
         try {
             const {data} = await axios.post(`/auth/login`, dataForm)
-            await cargarUsuarioCompleto();
+
+            localStorage.setItem("token", data.token);
+            guardarSesion(data.token);
+
             toast.success("Bienvenido!")   
              navigate('/') 
              return {success: true}        
@@ -82,13 +112,13 @@ export const AuthProvider = ({children}) => {
 
     const logout = async () => {
         try {
-            const res = await axios.post("/auth/logout");
+            localStorage.removeItem("token");
 
             setUsuario(null);
             setPermisos([]);
 
             navigate("/");
-            toast.success(res.data?.message)
+            toast.success("Logout exitoso!")
 
         } catch (error) {
             console.log(error);
