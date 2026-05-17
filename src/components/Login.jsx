@@ -52,7 +52,7 @@ const Login = () => {
             {errors.email && <p className='text-red-400 text-sm'>{errors.email.message}</p>}
             <input {...register('password', {required:'Contraseña es requerida'})} type="password" className={`border border-gray-600 rounded-lg px-3 py-2 focus:ring-2 focus:ring-[#42c1fc]  focus:outline-none ${!isDark&&"text-[#4e5c77]  focus:ring-[#b9c0ff] focus:border-none border-white"}`} placeholder='Contraseña' />
             {errors.password && <p className='text-red-400 text-sm'>{errors.password.message}</p>}
-            <p>Olvidó su contraseña? <Link to="../envio-mail">Click aqui</Link></p>
+            <p className='text-[#5d6f95]'>Olvidó su contraseña? <Link to="../envio-mail"><span className={`${!isDark&&"hover:text-[#a2acff] py-1 hover:[text-shadow:0_0_5px_#A2ACFF,0_0_15px_#E3E6FF,0_0_10px_#A2ACFF]"} cursor-pointer hover:text-[#91dbfd] hover:[text-shadow:0_0_5px_#81D4FA,0_0_15px_#81D4FA,0_0_10px_#81D4FA]`}>Click aqui</span></Link></p>
             <button type="submit" disabled={isSubmitting || waiting} className={`mt-2 w-full bg-[#42c1fc] text-white font-semibold py-2 rounded-xl
                hover:bg-[#1e88e5] transition-all shadow-md hover:shadow-lg  ${isSubmitting || waiting ? 'opacity-30' : ''} ${!isDark&&"text-[#4e5c77]  bg-[#b9c0ff] hover:bg-[#959fff]"} cursor-pointer`}>Iniciar Sesion</button>
         </form>
