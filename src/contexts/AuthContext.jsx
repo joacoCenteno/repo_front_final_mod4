@@ -130,9 +130,33 @@ export const AuthProvider = ({children}) => {
         return permisos.includes(permiso);
     }
 
+    const sendEmail = async (email) => {
+        try {
+            const {data} = await axios.post(`/auth/forgot-password`, {email})
+
+            const message = data.message || "Email enviado, revise su bandeja de entrada"
+            toast.success(message)
+        } catch (error) {
+            const message = error.response?.data?.message || "Error al restablecer contraseña";
+            toast.error(message);
+        }
+    }
+
+    const resetPassword = async (token, password) => {
+        try {
+            const {data} = await axios.post(`/auth/reset-password/${token}`, {password})
+            const message = data.message || "Contraseña reestablecida con éxito";
+            toast.success(message);
+            navigate('/autenticacion/login')
+        } catch (error) {
+                const message = error.response?.data?.message || "Error al restablecer contraseña";
+                toast.error(message);
+        }
+    }
+
 
     return (
-        <AuthContext.Provider value={{usuario, cargando, registro, login, logout, autenticado: !!usuario, tienePermiso, cargarUsuarioCompleto}}>
+        <AuthContext.Provider value={{usuario, cargando, registro, login, logout, autenticado: !!usuario, tienePermiso, cargarUsuarioCompleto, sendEmail, resetPassword}}>
             {children}
         </AuthContext.Provider>
     ) 
