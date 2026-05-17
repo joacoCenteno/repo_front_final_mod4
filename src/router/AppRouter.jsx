@@ -15,6 +15,7 @@ import CrearPlaylist from '../components/CrearPlaylist'
 import EditPlaylist from '../components/EditPlaylist'
 import { PlaylistFiltrado } from '../components/PlaylistFiltrado'
 import FiltroGeneroCancion from '../components/FiltroGeneroCancion'
+import EnvioMail from '../components/EnvioMail'
 
 const AppRouter = () => {
   const {autenticado, cargando} = useAuth()
@@ -36,6 +37,7 @@ const AppRouter = () => {
             <Route index element={<Registro/>} />
             <Route path='registro' element={<Registro/>}/>
             <Route path='login' element={<Login/>}/>
+            <Route path='envio-mail' element={<EnvioMail/>}/>
       </Route>
 
       <Route path='/canciones' element={<RequierePermiso permiso={"create:canciones"}><GestionCanciones/></RequierePermiso>}/>

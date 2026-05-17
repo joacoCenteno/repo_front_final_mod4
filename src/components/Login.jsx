@@ -3,6 +3,7 @@ import { useState } from 'react';
 import { useAuth } from '../contexts/AuthContext'
 import { useThemeContext } from '../contexts/ThemeContext';
 import { useForm } from 'react-hook-form';
+import { Link } from 'react-router-dom'
 
 const Login = () => {
     const {login} = useAuth();
@@ -51,6 +52,7 @@ const Login = () => {
             {errors.email && <p className='text-red-400 text-sm'>{errors.email.message}</p>}
             <input {...register('password', {required:'Contraseña es requerida'})} type="password" className={`border border-gray-600 rounded-lg px-3 py-2 focus:ring-2 focus:ring-[#42c1fc]  focus:outline-none ${!isDark&&"text-[#4e5c77]  focus:ring-[#b9c0ff] focus:border-none border-white"}`} placeholder='Contraseña' />
             {errors.password && <p className='text-red-400 text-sm'>{errors.password.message}</p>}
+            <p>Olvidó su contraseña? <Link to="../envio-mail">Click aqui</Link></p>
             <button type="submit" disabled={isSubmitting || waiting} className={`mt-2 w-full bg-[#42c1fc] text-white font-semibold py-2 rounded-xl
                hover:bg-[#1e88e5] transition-all shadow-md hover:shadow-lg  ${isSubmitting || waiting ? 'opacity-30' : ''} ${!isDark&&"text-[#4e5c77]  bg-[#b9c0ff] hover:bg-[#959fff]"} cursor-pointer`}>Iniciar Sesion</button>
         </form>
