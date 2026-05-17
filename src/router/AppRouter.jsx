@@ -16,6 +16,7 @@ import EditPlaylist from '../components/EditPlaylist'
 import { PlaylistFiltrado } from '../components/PlaylistFiltrado'
 import FiltroGeneroCancion from '../components/FiltroGeneroCancion'
 import EnvioMail from '../components/EnvioMail'
+import RestablecerContrasenia from '../components/RestablecerContrasenia'
 
 const AppRouter = () => {
   const {autenticado, cargando} = useAuth()
@@ -38,6 +39,7 @@ const AppRouter = () => {
             <Route path='registro' element={<Registro/>}/>
             <Route path='login' element={<Login/>}/>
             <Route path='envio-mail' element={<EnvioMail/>}/>
+            <Route path='reset-password/:token' element={<RestablecerContrasenia/>}/>
       </Route>
 
       <Route path='/canciones' element={<RequierePermiso permiso={"create:canciones"}><GestionCanciones/></RequierePermiso>}/>
